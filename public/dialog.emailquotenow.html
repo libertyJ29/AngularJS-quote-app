@@ -1,0 +1,50 @@
+<md-dialog class="fullscreen-dialog" aria-label="Email Quote <% quote.id %> to client">
+
+  <md-toolbar>
+    <div class="md-toolbar-tools"> <!--filter: {id: quote.client_id}-->
+      <h2>Email Quote <% quote.id %> to
+      <span ng-repeat='c in $parent.$$nextSibling.clients | clientnamefilter:$parent.$$nextSibling.clients:quote.client_id | limitTo: 1 | orderBy: id'>
+	   <% c.client_name %>
+      </span>
+      </h2>
+      <span flex></span>
+      <md-button class="md-icon-button" ng-click="closeDialog()">
+        <i class="material-icons">&#xE5CD;</i>
+      </md-button>
+    </div>
+  </md-toolbar>
+
+
+  <form name="emailclient">
+  <md-dialog-content>
+    <div class="md-dialog-content"> 
+
+    <md-input-container class="md-block">
+      <label>Client Email</label>
+          <textarea ng-model="email_address" name="email_address" rows="1" required></textarea>
+      <div ng-messages="emailclient.email_address.$error" ng-show="emailclient.email_address.$pristine"><span ng-message="required">Clients Email address is required.</span></div>
+    </md-input-container>
+
+    <md-input-container class="md-block">
+      <label>Email Subject</label>
+      <textarea ng-model="email_subject" md-maxlength="200" rows="1"></textarea>
+    </md-input-container>
+
+    <md-input-container class="md-block">
+      <label>Email Message</label>
+      <textarea ng-model="email_message" md-maxlength="1000"></textarea>
+    </md-input-container>
+
+    </div>
+  </md-dialog-content></form>
+
+
+  <md-dialog-actions layout="row">
+    <span flex></span>
+    <md-button ng-click="quoteCtrl_pdf_send_pre(quote.id, 'search', email_message, email_subject, email_address)" class="md-primary"><i class="fa fa-paper-plane" aria-hidden="true"></i>&nbsp;Send Email</md-button>
+    
+    <md-button ng-click="closeDialog()" class="md-primary">Cancel</md-button>
+  </md-dialog-actions>
+
+
+</md-dialog>

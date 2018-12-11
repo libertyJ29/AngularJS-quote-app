@@ -1,0 +1,112 @@
+<md-dialog class="fullscreen-dialog" aria-label="Photo management for Quote <% quote.id %> ">
+
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>Photo management for Quote <% quote.id %></h2>
+
+        <span flex></span>
+
+        <md-button class="md-icon-button" ng-click="closeDialog()">
+          <i class="material-icons">&#xE5CD;</i>
+        </md-button>
+      </div>
+    </md-toolbar>
+
+    <md-dialog-content>
+      <div class="md-dialog-content  md-dialog-contentSmallPadding">
+	
+	<!-- if a photo has been uploaded and exists, then view it straight away. Otherwise go to photo upload first -->
+	<span ng-if="quote.photo && photoexists == true"><b ng-init="$parent.photomanage = 'view'"></b></span>
+	<span ng-if="quote.photo && photoexists == false"><b ng-init="$parent.photomanage = 'upload'"></b></span>
+        <span ng-if="!quote.photo"><b ng-init="$parent.photomanage = 'upload'"></b></span>
+
+
+        <!-- view uploaded photo -->
+        <span ng-if="photomanage == 'view'">
+	<div ng-if="photoexists == true">
+            <img ng-src='quote_photo/quote<% quote.id %>.jpg' class="viewphotowidth">
+	</div>
+	<span ng-if="quote.photo && photoexists != true">
+	    The Photo is not available for this quote
+	</span>
+	<span ng-if="!quote.photo" && photoexists != true">
+	    No Photo uploaded for this quote
+	</span>
+        </span>
+
+
+	<!-- upload new photo -->
+	<span ng-if="photomanage == 'upload'">
+	<form name="myForm" ng-init="hideoriginal=false">
+            <b>Select Photo, Crop it, </b>(Scroll Down)<b>, then press Upload</b><br>
+            <md-button class="md-raised md-buttonNoMargin" accept="image/*" type="file" ngf-select ng-model="sourceImg" ngf-fix-orientation="true" ngf-max-size="12MB">
+	    Select Picture
+	    <md-tooltip> Works best with a landscape photo</md-tooltip>
+	    </md-button>
+
+
+	    <div class="cropArea">
+	        <!-- show the source image with cropping rectangle -->
+      	        <ui-cropper image="sourceImg" area-type="rectangle" aspect-ratio="1.7" result-image="croppedImg" result-image-quality="0.7" result-image-size='{w:800, h:470}' init-max-area="true"></ui-cropper>
+    	    </div><br>
+
+
+	    <!-- view the cropped image -->
+    	    <img ng-src="<% croppedImg %>"><br><br>
+
+
+
+  	    <!-- show loading icon if the loading variable is set to true -->
+    	    <p class="text-center" ng-show="loading">
+      		<span class="fa fa-meh-o fa-3x fa-spin"></span>
+    	    </p>
+
+	    <i ng-if="uploadstatus">
+	        <font color=red><% uploadstatus %></font><br>
+	    </i>
+
+	    <span ng-show="progress == 100">Upload Successful<br><b>Please wait for the photo to load!</b></span>
+	    <span class="err" ng-show="errorMsg"><% errorMsg %></span>
+            
+            <span class="progress" ng-show="progress >= 0 && progress != '' ">
+                <div style="width:<% progress %>%" ng-bind="progress + '%'"></div>
+            </span>
+
+	    <!-- upload the cropped image -->
+    	    <md-button class="md-raised md-buttonNoMargin" ng-click="uploadCroppedPhotoNow(croppedImg, sourceImg.name, quote.id, 'thumb', quote);">Upload Cropped photo</md-button>&nbsp;&nbsp;&nbsp;
+
+	    <!-- resize and upload the original image -->
+	    <md-button class="md-raised md-buttonNoMargin" ng-click="uploadSourcePhotoNow(sourceImg, quote.id, 'thumb', quote);">Upload photo without cropping</md-button> 
+
+	</form>
+	</span>
+
+
+
+	<!-- delete photo -->
+	<span ng-if="photomanage == 'delete'">
+
+	<span ng-if="$parent.quote.photo">
+	    <md-button class="md-raised md-buttonNoMargin" ng-click="deletePhoto($parent.quote.id)">Delete Photo for this quote</md-button><br>
+	</span>
+
+	<span ng-if="!quote.photo">No Photo uploaded for this quote</span>
+	    <br><font color=red><% photostatus %></font>
+	</span>
+
+	
+
+      </div>
+    </md-dialog-content>
+
+
+    <md-dialog-actions layout="row">
+      <md-button ng-click="photomanage='view'" class="md-autowidth">View</md-button>&nbsp;&nbsp;|<md-button ng-click="photomanage='upload'" class="md-autowidth">Upload</md-button>&nbsp;&nbsp;|<md-button ng-click="photomanage='delete'" class="md-autowidth">Delete</md-button>&nbsp;&nbsp;
+ 
+      <span flex></span>
+
+      <md-button ng-click="closeDialog()" class="md-primary md-autowidth">Close</md-button>
+    </md-dialog-actions>
+
+
+</md-dialog>

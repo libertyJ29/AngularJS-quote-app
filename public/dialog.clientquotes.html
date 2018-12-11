@@ -1,0 +1,99 @@
+<md-dialog class="fullscreen-dialog" aria-label="Quotes for <% c.client_name %>">
+
+  <md-toolbar>
+    <div class="md-toolbar-tools">
+      <h2>Quotes for <% c.client_name %></h2>
+      <span flex></span>
+      <md-button class="md-icon-button" ng-click="closeDialog()">
+        <i class="material-icons">&#xE5CD;</i>
+       </md-button>
+    </div>
+  </md-toolbar>
+
+  <md-dialog-content>
+    <div class="md-dialog-content">
+
+      <!--div ng-repeat="q in $$prevSibling.quotes | filter: {client_id : c.id}  | filter0quote:q "--><!--that filter not always getting correct id eg id6 or id16-->
+      <div ng-repeat="q in $$prevSibling.quotes | nameidfilter:q:c.id | filter0quote:q | orderBy: '-updated_at' ">
+
+	<span ng-if ="$index != 0">
+	<!--show divider between quotes-->
+      	<md-divider></md-divider>
+	</span>
+
+
+        <span class="clients-flex-container">
+
+	  <span class="client-quote-id">
+          <b>Quote <% q.id %></b> 
+	  </span>
+	  
+	  <span class="portrait-divider"></span>
+
+          <span class="client-quote-edit">
+	    <a href="" class="text-muted" ng-click="interfaceCtrl_quoteUpdate(q.id)">
+	    <i class="material-icons icon-divider-NoLeft">&#xE14E;</i>
+	    <md-tooltip>Update this Quote - <% q.street_address %></md-tooltip></a>
+	  </span>
+
+	  <span class="client-quote-address line1-right">
+	    <md-icon class="material-icons">&#xE88A;</md-icon> <% q.street_address %> 
+	  </span>
+
+	  <!--newline here after tags on mobile portrait-->
+	  <span show-xs hide-gt-xs>
+	    <br>
+ 	  </span>
+
+
+	  <span ng-init="tagsarr = tags_split(q.tags_id)"></span> 
+
+	
+          <span class="client-quote-tags">
+	    <% $parent.$$prevSibling.tagData.$$state.value.data.property_type[tagsarr[0]].name %>, 
+
+	    <span ng-repeat="work in $parent.$$prevSibling.tagData.$$state.value.data.work_required | filter:{id: tagsarr[1]}:true">
+                <span ng-if="work.id == tagsarr[1]"><% work.name %><span hide-xs flex></span>
+	        </span>
+            </span>  
+
+	    <span hide-xs flex><i class="icon-divider"></i></span>
+
+	    <!--% $parent.$$prevSibling.tagData.$$state.value.data.work_required[tagsarr[1]].name %><span hide-xs flex></span-->
+
+          </span><!--end of client-quote-tags-->
+
+
+	  <!--newline on mobile-->
+	  <span show-xs show-sm hide-gt-sm>
+	    <br>
+          </span>
+	    
+	  <!--divider between on laptop-->
+	  <span hide-xs hide-sm show-gt-sm flex>
+	    <i class="icon-divider"></i>
+	  </span>
+
+	  <span class="client-quote-date">
+	    <span class="dontbreakhere">
+	    <md-icon class="material-icons">&#xE192;</md-icon>&nbsp;<% q.updated_at | date | usadateFilter %> 
+            </span><!--end of dontbreakhere-->
+	  </span>
+
+     	   <br>
+        </span><!--clients-flex-container-->
+
+
+      </div>
+      <br>
+    </div>
+  </md-dialog-content>
+
+
+  <md-dialog-actions layout="row">
+    <span flex></span>
+    <md-button ng-click="closeDialog()" class="md-primary">Close</md-button>
+  </md-dialog-actions>
+
+
+</md-dialog>

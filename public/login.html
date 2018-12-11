@@ -1,0 +1,110 @@
+
+<!-- Header Bar =============================================== -->
+<md-toolbar class="toolbarHeight">
+
+  <div layout="row">
+
+  <div class="topBarPaddingLeft"></div>
+
+  <!--Show header on laptop-->
+  <div hide-sm hide-xs show-gt-sm flex="33">
+        <!--md-button ng-click="" class="md-raised md-primary""><i class="material-icons">menu</i>
+        </md-button-->
+	<div class="title titlelogin"><h3 class="marginBottom5">&nbsp;</h3><md-divider class="whitedivider"></md-divider></div>
+   </div>
+
+
+
+  <!--Show header on mobile portrait-->
+  <div show-xs hide-sm hide-gt-sm flex>
+    <div class="titleFlexContainer">
+      <div class="titleNameFlex">
+        <div class="title titlelogin appname"><h4 class="marginBottom5">Construction Quote App</h4>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+  <!--Show header on mobile landscape-->
+  <div hide-xs show-sm hide-gt-sm flex>
+    <div class="titleFlexContainer">
+      <div class="titleNameFlex">
+        <div class="title titlelogin appname"><h3 class="marginBottom5">Construction Quote App</h3>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+  <!--Show header and divider on laptop-->
+  <div hide-xs flex hide-sm flex>
+        <div class="title titlelogin appname"><h3 class="marginBottom5">Construction Quote App</h3>
+	   	<md-divider class="whitedivider"></md-divider>
+        </div>
+  </div>
+
+
+  <div class="topBarPaddingRight"></div>
+  </div>
+
+
+
+  <!--show divider on mobile-->
+  <span show-xs flex show-sm hide-gt-sm>
+      <md-divider class="whitedivider marginLeftRight"></md-divider>
+  </span>
+
+
+</md-toolbar>
+    
+
+
+
+<!-- PAGE Authentication Log in =============================================== -->
+<span layout="row">
+
+
+ <b class="shade shadewidth shadenopadding">
+
+	<div class="blueHeader" >Please Login</div><br>
+
+
+	<div ng-show="error" class="alert alert-danger"><% error %></div>
+
+	<form method="POST" ng-submit="loginUser(csrftoken.$$state.value.data)">
+
+        <div ng-init="csrftok()"></div>
+	<input type="hidden" name="_Token" value="<% csrftoken.$$state.value.data %>">
+
+    	<div class="form-group">
+     		<i class="material-icons">&#xE7FD;</i>
+      	<md-input-container flex="40">
+		<input type="text" placeholder="Username" name="username" ng-model="username" required></md-input-container>
+    	</div>
+
+
+    	<div class="form-group">
+      	<i class="material-icons">&#xE898;</i>
+        	<md-input-container flex="40">
+		<input type="password" placeholder="Password" name="password" ng-model="password" required /></md-input-container>
+	</div>
+
+
+	<md-button name="login" type="submit" class="md-raised" ng-disabled="form.$invalid"><i class="fa fa-1-5 fa-sign-in" aria-hidden="true"></i> &nbsp;Login</md-button>
+
+	<!--show spinner icon while authenticating user-->
+        <p class="text-center" ng-if="dataLoading">
+      	    <span class="fa fa-meh-o fa-3x fa-spin"></span>
+        </p>
+
+
+    	</div>
+	</form>
+
+ </b>
+</span>
+

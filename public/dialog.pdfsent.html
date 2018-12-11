@@ -1,0 +1,66 @@
+<md-dialog class="fullscreen-dialog" aria-label="Quote <% quote.id %> Emailed to ">
+
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>Quote <% quote.id %> Emailed to 
+          <span ng-repeat='c in $parent.$$nextSibling.clients | clientnamefilter:$parent.$$nextSibling.clients:quote.client_id | limitTo:1'>
+	      <% c.client_name %>
+	  </span>
+        </h2>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="closeDialog()">
+          <i class="material-icons">&#xE5CD;</i>
+        </md-button>
+      </div>
+    </md-toolbar>
+
+    <md-dialog-content>
+      <div class="md-dialog-content">
+
+      <div ng-repeat="i in pdf_sent_ids">
+
+	<!--divider between records-->
+	<span ng-if ="$index != 0">
+	<md-divider></md-divider>
+	</span>
+
+
+        <div ng-repeat="p in pdfsend | filter : {id: i}:true">
+
+          <span ng-init="checkfile.checka = checkpdfexists(p.filename)">
+          <i ng-if="checkfile.checka.$$state.value.data == '1'">
+ 
+              <a href="./quote_pdf/<% p.filename %>" target="_blank" class="text-muted">
+              <i class="material-icons">&#xE415;</i>
+              <md-tooltip md-direction="right">View PDF Quote</md-tooltip>
+              </a>
+
+	      <i class="icon-divider"></i>
+          </i>
+          </span>
+
+
+	  <span class="dontbreakhere">
+              <i class="fa fa-envelope-o fa-1-5" aria-hidden="true"></i> <% p.client_email %>
+	      <i class="icon-divider"></i>
+	  </span>
+
+
+	  <span class="dontbreakhere">
+              <md-icon class="material-icons md-icon-faAlign">&#xE192;</md-icon> <% p.created_at | date | usadateFilter %>
+	  </span>
+
+
+        </div>
+
+
+      </div>
+      </div>
+    </md-dialog-content>
+
+    <md-dialog-actions layout="row">
+      <span flex></span>
+      <md-button ng-click="closeDialog()" class="md-primary">Close</md-button>
+    </md-dialog-actions>
+
+</md-dialog>

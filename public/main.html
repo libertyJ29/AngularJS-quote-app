@@ -1,0 +1,2325 @@
+<!-- MENU =============================================== -->
+<div ng-controller="interfaceController" ng-cloak="">
+
+  <section layout="row">
+
+    <md-sidenav class="md-sidenav-left" md-component-id="left" md-disable-backdrop="">
+
+      <!--swipe left on menu to close it-->
+      <span md-swipe-left="onSwipeLeft()">
+
+      <md-content layout-margin="">
+
+      <!--layout-align="space-between center" - pushes the span elements to either side-->
+      <div layout="row" layout-align="space-between center">
+        <md-button ng-click="tagSearch()" class="md-accent black-text md-autowidth md-button-NoMargin">
+        Tag Search 
+        </md-button>
+        <span>
+          <md-button href="" ng-click="closeMenu()" class="md-small" float:right>	   
+          <span class="material-icons">&#xE14C;</span>
+	  <md-tooltip>Close</md-tooltip>
+          </md-button>
+        </span>
+      </div>
+      <md-button ng-click="tagManagement()" class="md-accent black-text">
+      Tag Management 
+      </md-button>
+
+      <md-divider></md-divider>
+
+      <md-button ng-click="quoteManagement()" class="md-accent black-text">
+      Quote Management
+      </md-button><br>
+      <md-button ng-click="createNewQuote()" class="md-accent black-text">
+      Create New Quote
+      </md-button>
+
+      <md-divider></md-divider>
+
+      <md-button ng-click="clientManagement()" class="md-accent black-text">
+      Client Management
+      </md-button><br>
+      <md-button ng-click="createClient()" class="md-accent black-text">
+      Create New Client
+      </md-button> 
+
+      <md-divider></md-divider>
+
+      <md-button ng-click="settings()" class="md-accent black-text md-autowidth">
+      Settings 
+      </md-button>
+
+      <md-divider></md-divider>
+	
+ 
+
+<!-- MENU - Log out button =============================================== -->
+
+      <div ng-controller="AuthenticationController">
+
+		<md-button name="logout" type="button" ng-click="logout()" class="md-raised md-autowidth md-buttonNoMargin">
+			<i class="fa fa-1-5 fa-sign-out" aria-hidden="true"></i> &nbsp;Logout<md-tooltip>Logout of Quote App</md-tooltip>
+		</md-button>
+
+      </div><!--end of AuthenticationController-->
+
+
+
+	 <!--Show Screen Width in side nav menu-->
+	 <div screen-directive>
+		<span ng-if="width >= 750" >
+		  Laptop Screen Width: <%width%>		   
+	  	</span>
+        	<span ng-if="width < 750" >
+		  Mobile Screen Width : <%width%>
+	  	</span>  
+ 	 </div>
+
+
+
+
+
+      </md-content>
+
+      </span><!--end of swipe left to close menu-->
+
+    </md-sidenav>
+
+
+
+   
+
+
+
+
+<!-- App Header Bar =============================================== -->
+  <md-toolbar class="md-theme-indigo">
+
+    <div layout="row">
+
+      <div flex="33">
+      <md-button ng-click="toggleLeft()" class="md-raised md-primary md-small md-menubutton" aria-label="mainmenu">
+          <i class="fa fa-bars fa-2x" aria-hidden="true"></i>
+      </md-button>
+      </div>
+
+
+      <!--Show this header as default for laptop-->
+      <div hide-xs flex>
+        <div class="title"><h3 class="appname marginBottom5">Construction Quote App</h3>
+          <md-divider class="whitedivider"></md-divider>
+        <h3><% menuStatus.data %></h3>
+        </div>
+      </div>
+
+
+      <!--Show this header on mobile portrait-->
+      <div hide-gt-xs flex>
+        <div class="title"><h4 class="appname marginBottom5">Construction Quote App</h4>
+          <md-divider class="whitedivider"></md-divider>
+        <h4><% menuStatus.data %></h4>
+        </div>
+      </div>
+
+
+
+
+    </div>
+
+  </md-toolbar>
+    
+  </section><!--end of nav and top header bar section-->
+
+
+
+
+
+
+
+
+
+<!-- PAGE Quote Tabs Bar =============================================== -->
+<div ng-show="selection.data == 'quoteManagement' || selection.data == 'createQuote' || selection.data == 'searchQuote'">
+
+
+  <md-nav-bar md-selected-nav-item="currentNavItem.data" nav-bar-aria-label="navigation links">
+
+
+  <md-nav-item md-nav-click="quote_search()" name="searchQuote">
+    <!--show smaller tab text on mobile-->
+    <div hide-gt-xs flex>
+      <div class="md-caption">View all / Search for</div>
+    </div>
+    <!--show standard text size on laptop-->
+    <div hide-xs flex>View all / Search for</div>
+  </md-nav-item>
+
+  <md-nav-item md-nav-click="quote_create()" name="createQuote">
+    <div hide-gt-xs flex>
+      <small class="md-caption">Create New</small>
+    </div>
+    <div hide-xs flex>Create New</div>
+  </md-nav-item>
+
+  <md-nav-item md-nav-click="quote_update()" name="updateQuote">
+    <div hide-gt-xs flex>
+      <small class="md-caption">Update</small>
+    </div>
+    <div hide-xs flex>Update</div>
+  </md-nav-item>
+
+  </md-nav-bar>
+</div>
+
+
+
+
+<!-- PAGE Client Tabs Bar =============================================== -->
+<div ng-show="selection.data == 'updateClient' || selection.data == 'createClient' || selection.data == 'searchClient'">
+
+
+  <md-nav-bar md-selected-nav-item="currentNavItem.data" nav-bar-aria-label="navigation links">
+
+  <md-nav-item md-nav-click="client_search()" name="searchClient">
+    <div hide-gt-xs flex>
+      <div class="md-caption">View all / Search for</div>
+    </div>
+    <div hide-xs flex>View all / Search for</div>
+  </md-nav-item>
+
+  <md-nav-item md-nav-click="client_create()" name="createClient">
+    <div hide-gt-xs flex>
+      <div class="md-caption">Create New</div>
+    </div>
+    <div hide-xs flex>Create New</div>
+  </md-nav-item>
+
+  <md-nav-item md-nav-click="client_update()" name="updateClient">
+    <div hide-gt-xs flex>
+      <div class="md-caption">Update</div>
+    </div>
+    <div hide-xs flex>Update</div>
+  </md-nav-item>
+
+  </md-nav-bar>
+</div>
+
+
+
+
+<!-- PAGE Tags Tabs Bar =============================================== -->
+<div ng-show="selection.data == 'propertyType' || selection.data == 'workRequired' ">
+
+
+  <md-nav-bar md-selected-nav-item="currentNavItem.data" nav-bar-aria-label="navigation links">
+
+  <md-nav-item md-nav-click="tags_property_type()" name="propertyType">
+    <div hide-gt-xs flex>
+      <div class="md-caption">Property Type</div>
+    </div>
+    <div hide-xs flex>Property Type</div>
+  </md-nav-item>
+
+  <md-nav-item md-nav-click="tags_work_required()" name="workRequired">
+    <div hide-gt-xs flex>
+      <div class="md-caption">Work Required</div>
+    </div>
+    <div hide-xs flex>Work Required</div>
+  </md-nav-item>
+
+  </md-nav-bar>
+</div>
+
+
+
+<!-- PAGE Settings Tabs Bar =============================================== -->
+<div ng-show="selection.data == 'settings_vat' || selection.data == 'settings_address' || selection.data == 'settings_account'">
+
+
+  <md-nav-bar md-selected-nav-item="currentNavItem.data" nav-bar-aria-label="navigation links">
+  
+  <md-nav-item md-nav-click="settings_vat()" name="settings_vat">
+    <div hide-gt-xs flex>
+      <div class="md-caption">Vat Rate</div>
+    </div>
+    <div hide-xs flex>Vat Rate</div>
+  </md-nav-item>
+
+  <md-nav-item md-nav-click="settings_address()" name="settings_address">
+    <div hide-gt-xs flex>
+      <div class="md-caption">Company Address</div>
+    </div>
+    <div hide-xs flex>Company Address</div>
+  </md-nav-item>
+
+  <md-nav-item md-nav-click="settings_account()" name="settings_account">
+    <div hide-gt-xs flex>
+      <div class="md-caption">Account</div>
+    </div>
+    <div hide-xs flex>Account</div>
+  </md-nav-item>
+
+  </md-nav-bar>
+</div>
+
+
+
+
+
+
+</div><!--end of interface controller-->
+<!--end of angular material menu-->
+
+
+
+
+
+
+
+<div ng-controller = "quoteController">
+    <div ng-controller = "pdfController">
+        <div ng-controller = "photoController">
+
+
+
+
+<!-- PAGE Home - Tag Search =============================================== -->
+<div ng-show="selection.data == 'tagSearch'">
+
+<div class="shade">
+
+
+
+<!-- Loading Icon -->
+<p class="text-center" ng-show="loading">
+    <span class="fa fa-meh-o fa-3x fa-spin"></span>
+</p>
+
+
+
+<!-- img-src="showPhoto1();" -->
+<!--span ng-init="$scope.photo1 = showPhoto1();"><img src="photo1.jpg"></span-->
+<!--here <% $scope.photo1 %> here2 <% $scope.photo1 %>-->
+
+<!--storage=<img src="quote_photo/quote1.jpg"-->
+
+
+<!--Show / Hide Quotes Toggle Button-->
+<span ng-if="tagfilter_id.data != 'blankB1B' ">
+  <span layout="row" layout-align="center center" class="tagSearchAlign">
+  <md-button type="button" ng-click="$parent.showTagToggle = !showTagToggle" class="md-raised">
+
+  <b>
+    <i ng-if="showTagToggle">Hide</i>
+    <i ng-if="!showTagToggle">Show</i> 
+	Quotes for 
+		<span ng-if="$parent.$parent.tagfilter_type.data == 'work_required'">
+		    <span ng-repeat="work in $parent.tagData.$$state.value.data[tagfilter_type.data] | filter:{id: $parent.tagfilter_id.data} | limitTo:1 ">
+		        <%work.name%>
+		    </span>
+		</span>
+		<span ng-if="$parent.$parent.tagfilter_type.data != 'work_required'">
+		    <% $parent.tagData.$$state.value.data[tagfilter_type.data][tagfilter_id.data].name %>
+		</span>
+    </b>&nbsp;&nbsp;
+    <span ng-if="showTagToggle"><i class="fa fa-times"></i></span>
+    <span ng-if="!showTagToggle"><i class="fa fa-bars"></i></span>
+
+  </md-button> 
+  </span>
+</span>
+
+
+<span ng-if="tagfilter_id.data == 'blankB1B' ">
+  <span layout="row" layout-align="center center" class="tagSearchAlign">
+	<b class="text-muted">Click a button below to view matching quotes</b>
+  </span>
+</span>
+
+
+
+
+
+<div ng-hide="!showTagToggle">
+
+<!--init filter to blankB1B so no quote shows before clicking tag.  blankB1B is unselectable so it will always show nothing -->
+<div ng-init="tagfilter={property_type: 'blankB1B'}">
+
+
+
+<!--Display the Data for each Quote, exclude tag 0 'None'-->
+<div dir-paginate=" quote in results = (quotes | filter: tagfilter | orderBy : '-updated_at' | filter0quote:quote) | itemsPerPage:5" current-page="currentPage" pagination-id="tag">
+
+
+
+
+<span class="photoRight-flex">
+  <span class="text-flex">
+
+
+  <span class="align-flex-container container-width">
+
+    <span class="tag-search-name-width"><!--mobile landscape and laptop-->
+    <span class="align-left-flex2"><!--mobile portrait-->
+
+      <md-icon class="material-icons">&#xE7FD;</md-icon> 
+
+      <!--get the client name-->
+      <span ng-repeat=" client in $parent.$parent.$parent.$$nextSibling.clients | clientnamefilter:$parent.$parent.$parent.$$nextSibling.clients:quote.client_id | limitTo:1 ">
+          <% client.client_name %> 
+      </span>
+
+    </span>
+    </span>
+
+
+    <span class="tag-search-address-width">
+      <md-icon class="material-icons">&#xE88A;<md-tooltip><% quote.description %></md-tooltip></md-icon> 
+         <% quote.street_address %><span hide-xs flex>, <% quote.city %></span>
+
+      <span hide-xs hide-sm>
+      <!--show the other tag for this quote-->
+        <span ng-init="tagsarr = tags_split(quote.tags_id)"></span>
+
+        <span ng-if="$parent.tagfilter_type.data == 'work_required'">
+            <span class="openQuote"></span><% $parent.tagData.$$state.value.data.property_type[tagsarr[0]].name %><span class="closeQuote"></span>
+        </span>
+        <span ng-if="$parent.tagfilter_type.data != 'work_required'">
+            <span ng-repeat="work in $parent.tagData.$$state.value.data.work_required | filter:{id: tagsarr[1]}:true">
+                <span ng-if="work.id == tagsarr[1]"><span class="openQuote"></span><% work.name %><span class="closeQuote"></span></span>
+            </span>
+        </span>
+      </span>
+
+    </span>
+  </span><!--end of align-flex-container-->
+
+  
+
+
+
+  <span class="align-flex-container">
+    <!--date on mobile-->
+    <span hide-gt-sm flex>
+    <span class="align-left-flex">
+      <md-icon class="material-icons">&#xE192;</md-icon>
+      <% quote.updated_at | dateToISO | date:'dd/MM/yyyy' %>
+    </span>
+    </span>
+
+    <!--show on mobile landscape and laptop-->
+    <span hide-gt-sm>
+    <span class="align-right-flex">
+      <!--show the other tag for this quote-->
+      <span ng-init="tagsarr = tags_split(quote.tags_id)"></span>
+
+      <span ng-if="$parent.tagfilter_type.data == 'work_required'">
+            <span class="openQuote"></span><% $parent.tagData.$$state.value.data.property_type[tagsarr[0]].name %><span class="closeQuote"></span>
+      </span>
+      <span ng-if="$parent.tagfilter_type.data != 'work_required'">
+          <span ng-repeat="work in $parent.tagData.$$state.value.data.work_required | filter:{id: tagsarr[1]}:true">
+                <span ng-if="work.id == tagsarr[1]"><span class="openQuote"></span><% work.name %><span class="closeQuote"></span></span>
+          </span>
+      </span>
+    </span>
+    </span>
+  </span><!--end of align container-->
+
+
+  <!--newline on mobile landscape and laptop-->
+  <span hide-xs>
+    <br class="noSpace">
+  </span>
+
+    
+  <!--date on laptop-->
+  <span hide-xs hide-sm flex>
+    <md-icon class="material-icons">&#xE192;</md-icon>
+    <% quote.updated_at | dateToISO | date:'dd/MM/yyyy' %>
+  </span>
+
+    
+
+  <span class="buttons-flex-container">
+    <md-input-container class="md-block tagSearchButtonsNopaddNoMargin">
+
+      <a href="" class="text-muted" ng-click="deleteQuoteCheck($event, quote.id, quote.street_address, 'null', 'home')">
+      <span class="md-button-submit-color"><i class="material-icons icon-divider">&#xE92B;</i>
+      <md-tooltip>Delete this Quote - <% quote.street_address %></md-tooltip>
+      </span>
+      </a> 
+
+      <a href="" class="text-muted" ng-click="quoteLoadUpdate(quote.id)">
+      <i class="material-icons icon-divider">&#xE14E;</i>
+      <md-tooltip>Update this Quote - <% quote.street_address %></md-tooltip>
+      </a> 
+
+      <a href="" ng-click="quoteCtrl_photo_dialog($event, quote, 'search')" class="text-muted">
+      <i class="material-icons icon-divider">&#xE412;</i>
+      <md-tooltip>Photo of Property</md-tooltip
+      </a> 
+
+      <a href="./pdf_view<% quote.id %>" target="_blank" class="text-muted">
+      <i class="material-icons icon-divider">&#xE415;</i>
+      <md-tooltip>View PDF Quote</md-tooltip>
+      </a>
+
+    </md-input-container>
+  </span><!--end buttons-flex-container-->
+
+
+  </span><!--end of text-flex-->
+
+
+
+
+  <!--show photo-->
+  <span class="img-flex tagsearch-portrait-photo-center">
+    
+    <!--check if a photo is uploaded for the quote-->
+    <i ng-if="quote.photo">                       <!--add _small for thumbnail-->
+      <img ng-src="quote_photo/quote<% quote.id %>.jpg" onerror="this.src='quote_photo/no_photo.png" class="quoteSearchPhoto">
+    </i>
+    <b ng-if="!quote.photo">
+      <!--show nothing if no photo exists-->
+    </b>
+
+  </span>
+
+
+
+</span><!--end of container photoRight-flex->
+
+
+
+
+<!--show divider between quotes-->
+<md-divider></md-divider>  
+
+</div><!--end of ng-repeat quote-->
+
+</div>
+
+
+<div class="centerButton">
+<dir-pagination-controls
+       pagination-id="tag"
+       max-size="5"
+       direction-links="false"
+       boundary-links="false">
+</dir-pagination-controls>
+</div>
+
+
+
+<!--if no matching quotes from the tag filter-->
+<div ng-hide="results.length">
+  <br>No matching Quotes
+</div>
+
+
+
+
+<!--show divider after the quotes if pagination control is showing, or if no quotes match-->
+<div ng-show="results.length > 5 || !results.length">
+  <md-divider></md-divider>
+</div>
+
+
+</div><!--end of ng-hide="!showTagToggle"-->
+
+
+
+
+<br><br><!--put space below the Show/Hide Quotes button-->
+
+
+<!--centre the tag search on laptop-->
+<div class="inlinewrapper">
+<div layout="row">
+
+  <!--Define width between left side of screen and property tag icons-->
+  <!--for mobile portrait 10-->
+  <span ng-if="$parent.$parent.$$prevSibling.width < 500" >
+    <b ng-hide="$scope.taglayouta = 10"></b>
+  </span>
+  <!--for mobile landscape 15-->
+  <span ng-if="$parent.$parent.$$prevSibling.width >= 500" >
+    <b ng-hide="$scope.taglayouta = 15"></b>
+  </span>
+  <!--for laptop 5-->
+  <span ng-if="$parent.$parent.$$prevSibling.width >= 750" >
+    <b ng-hide="$scope.taglayouta = 20"></b>
+  </span>  
+  <!--for laptop 5, below is 15-->
+  <span ng-if="$parent.$parent.$$prevSibling.width >= 1000" >
+    <b ng-hide="$scope.taglayouta = 15"></b>
+  </span>  
+  <span ng-if="$parent.$parent.$$prevSibling.width >= 1200" >
+    <b ng-hide="$scope.taglayouta = 10"></b>
+  </span>  
+ 
+
+
+  <!--Set the width between left side of screen and property tag icons-->
+  <span flex="<% $scope.taglayouta %>"></span>
+
+
+  <!--Define width between property type and work required tag icons-->
+  <span ng-if="$parent.$parent.$$prevSibling.width < 500" >
+    <div ng-hide="$scope.taglayoutb = 30"></div>
+  </span>  
+  <span ng-if="$parent.$parent.$$prevSibling.width >= 500" >
+    <div ng-hide="$scope.taglayoutb = 30"></div>
+  </span>  
+  <span ng-if="$parent.$parent.$$prevSibling.width >= 750" >
+    <div ng-hide="$scope.taglayoutb = 30"></div>
+  </span> 
+  <span ng-if="$parent.$parent.$$prevSibling.width >= 1000" >
+    <div ng-hide="$scope.taglayoutb = 25"></div>
+  </span>  
+
+  <!--Set the width between property and work required tag icons-->
+  <b flex="<% $scope.taglayoutb %>">
+
+
+
+  <!--Show the Property Type Tag Icons-->
+  <i ng-repeat="p in tagData.$$state.value.data.property_type | orderBy : 'name' | filter:'!None'">
+    <span ng-click="$parent.tagfilter={property_type: p.id}; $parent.showTagToggle = 'true'; resetPage(); ">
+      <img ng-src="img/property/<% p.img %>" class="img-rounded tagspace hvrlink">
+      <md-tooltip md-direction="right"><% tagData.$$state.value.data.property_type[p.id].name %></md-tooltip>
+    </span><br>
+  </i>
+
+
+
+  </b>
+
+  <br>
+
+
+  <!--Set the width after the work required tags-->
+  <b flex="20">
+
+    
+  <!--Show the Work Required Tag Icons-->
+  <!--filter:'!None'" to not show work_required Tag 0 = None-->
+  <span ng-bind="calculateButtonHeight(tagData.$$state.value.data.work_required)"></span>
+
+  <i ng-repeat="p in tagData.$$state.value.data.work_required | orderBy : 'name' | filter:'!None'">
+    <md-button value="p.id" class="tagspace hvrlink" style="line-height:<% $parent.buttonHeight %>px !important;" ng-click="$parent.tagfilter={work_required: p.id}; $parent.showTagToggle = 'true'; resetPage();">
+   	<i class="fa fa-wrench fa-2x"></i>
+    <% p.name %>
+    </md-button>
+    <br>
+  </i>
+
+    
+  </b><!--end of flex=20-->
+
+</div></div><!--end of layout = row-->
+
+
+
+
+
+<!--inject the method to split the tag filter value-->
+<% mySplit(tagfilter) %>  
+
+
+
+
+
+
+
+</div><!--end of shade container-->
+</div><!--end of Home - tag search-->
+	
+
+
+
+
+
+<!--Quote Status text-->
+<!--div ng-show="selection.data == 'quoteManagement' || selection.data == 'createQuote' || selection.data == 'searchQuote'">
+<i class="material-icons">info_outline</i> Quote Status Info: <% status %></div-->
+
+
+
+
+
+
+
+
+<!-- PAGE Search for Quote =============================================== -->
+<div ng-show="selection.data == 'searchQuote'">
+
+<div class="shade">
+
+
+
+<!-- Unsaved New Quote -->
+<!--check if more than 1 job or any extra subtitles added-->
+<div ng-if="quoteArray[0].jobs.length > 1 || quoteArray[1].jobs.length >= 1 ">
+  <md-button class="md-raised md-button-submit-color" ng-click="createNew()">
+  You have an unsaved Quote Draft here
+  </md-button>
+  <br><br>
+</div>
+
+
+
+
+<b>View all Quotes</b>
+
+
+<!--Client Name Search-->
+<md-input-container class="md-block">
+  <input ng-model="name_query" type="text" placeholder="Search by client name" autofocus flex="<% $parent.$parent.$$prevSibling.widths.quote_med %>">
+</md-input-container>
+
+
+
+<!--The name filter above shows nothing until you Select a name from the select box-->
+<md-input-container class="md-block" flex="<% $parent.$parent.$$prevSibling.widths.quote_med %>">
+  <label>Select Client</label>
+  <md-select ng-model="$scope.searchedclient_idA">
+    <md-option ng-value=""><em><b>None Selected</b></em></md-option>
+    <md-option ng-repeat="cl in $parent.$parent.$$nextSibling.clients | orderBy : 'client_name' | filter: {client_name:name_query}" ng-value="cl.id">
+        <%cl.client_name%>
+    </md-option>
+  </md-select>
+</md-input-container>
+
+
+
+<span ng-repeat=" c in $scope.clientnamesearch = ($parent.$parent.$$nextSibling.clients | filter: name_query )">
+    <input type="hidden" ng-model="c.client_name">
+</span>
+
+
+
+<!--Address Search-->
+<md-input-container class="md-block">
+    <input ng-model="address_query" type="text" placeholder="Search by address" autofocus flex="<% $parent.$parent.$$prevSibling.widths.quote_med %>">
+</md-input-container>
+
+
+
+
+
+<!--Quote Search Pagination-->
+
+<!--put single quotes around the number to match client_id-->
+<div ng-hide = "$scope.clientNameIdSearch = '' + $scope.searchedclient_idA + ''"></div>
+
+
+<div dir-paginate="quote in quotes | filter: {street_address: address_query} | nameidfilter:quote:$scope.clientNameIdSearch | filter0quote:quote | orderBy : '-updated_at' | itemsPerPage:10" pagination-id="quote"> 
+
+
+
+
+
+<span class="photoRight-flex">
+  <span class="text-flex">
+
+  <span class="align-flex-container container-width">
+    <span class="quote-management-name-width"><!--mobile landscape and laptop-->
+    <span class="align-left-flex2"><!--mobile portrait-->
+
+      <md-icon class="material-icons">&#xE7FD;</md-icon>
+
+      <!--show the client name-->
+      <i ng-repeat=" client in $parent.$parent.$parent.$$nextSibling.clients | clientnamefilter:$parent.$parent.$parent.$$nextSibling.clients:quote.client_id | orderBy: id | limitTo:1 ">
+        <% client.client_name %> 
+      </i>
+
+    </span>
+    </span>
+
+    <span class="quote-management-address-width">
+      <md-icon class="material-icons">&#xE88A;<md-tooltip><% quote.description %></md-tooltip></md-icon>
+      <% quote.street_address %><span hide-xs>, <% quote.city %></span><!--show city after the address on laptop-->
+    </span>
+
+    <span class="quote-management-date-width">
+    <span hide-xs hide-sm><!--date on laptop-->
+      <md-icon class="material-icons">&#xE192;</md-icon>
+      <% quote.updated_at | dateToISO | date:'dd/MM/yyyy' %>
+    </span>
+    </span>
+
+  </span><!--end of align-flex-container-->
+
+
+
+
+  <span hide-gt-sm><!--date on mobile-->
+    <md-icon class="material-icons">&#xE192;</md-icon>
+    <% quote.updated_at | dateToISO | date:'dd/MM/yyyy' %>
+  </span>
+
+
+
+  <!--new line on mobile landscape-->
+  <span hide-gt-sm show-sm hide-xs>
+    <br>
+  </span>
+
+
+    <span class="photoRight-flex button-margin-top">
+
+      <span class="buttons-left-flex"><!--laptop-->
+      <span class="line1-right"><!--mobile portrait-->
+
+        <a href="" ng-click="deleteQuoteCheck($event, quote.id, quote.street_address, 'null', 'search')" class="text-muted">
+        <span class="md-button-submit-color">
+        <i class="material-icons icon-divider-NoLeft">&#xE92B;</i>
+        <md-tooltip>Delete this Quote - <% quote.street_address %></md-tooltip>
+        </span>
+        </a> 
+
+        <a href="" ng-click="quoteLoadUpdate(quote.id)" class="text-muted">
+        <i class="material-icons icon-divider">&#xE14E;</i>
+        <md-tooltip>Update this Quote - <% quote.street_address %></md-tooltip>
+        </a>
+   
+        <a href="" ng-click="quoteCtrl_photo_dialog($event, quote, 'search')" class="text-muted">
+        <i class="material-icons icon-divider">&#xE412;</i>
+        <md-tooltip>Photo of Property</md-tooltip>
+        </a>
+
+      </span>
+      </span>
+
+
+
+      <!--newline on mobile portrait-->
+      <span show-xs hide-sm hide-gt-sm>
+        <br>
+      </span>
+
+  
+    
+      <span class="buttons-right-flex">
+        <a href="./pdf_view<% quote.id %>" target="_blank" class="text-muted">
+        <i class="material-icons icon-divider-NoLeft left20">&#xE415;</i>
+        <md-tooltip>View PDF Quote</md-tooltip>
+        </a>
+
+  
+        <a href="" ng-click="quoteCtrl_pdf_send_dialog($event, quote, 'search')" class="text-muted">
+        <i class="material-icons icon-divider">&#xE0BE;</i>
+        <md-tooltip>Email PDF Quote to Client</md-tooltip>
+        </a> 
+
+
+        <span hide-xs hide-sm>
+          <i class="icon-divider-Bigger"></i>
+        </span>
+
+
+        <i ng-if="quote.pdf_sent_id != null">
+          <md-button class="md-raised md-button-no-margin" ng-click="show_pdfsent_Dialog($event, quote)">
+          <md-tooltip>View info for sent Quote</md-tooltip>
+          <font class="text-muted">Quote Sent</font>
+          </md-button>
+        </i>
+
+        <i ng-if="quote.pdf_sent_id == null">
+          <span class="md-button-submit-color dontbreakhere">Not sent</span>
+        </i>
+
+      </span><!--end of buttons-right-flex-->
+
+
+    </span><!--end of photoRight-flex container-->
+
+
+  </span><!--end of text-flex-->
+
+
+
+  <span show-xs hide-gt-xs>
+    <br>
+  </span>
+
+
+  <!--show photo on laptop and mobile landscape-->
+  <span class="img-flex tagsearch-portrait-photo-center">
+
+    <!--check if a photo is uploaded for the quote-->
+    <i ng-if="quote.photo">
+	<span class="align-photo-rightA">
+      <img ng-src="quote_photo/quote<% quote.id %>.jpg" onerror="this.src='quote_photo/no_photo.png'" class="quoteSearchPhoto photoMargin600">
+	</span>
+    </i>
+    <b ng-if="!quote.photo">
+      <!--show nothing if no photo exists-->
+    </b>
+
+  </span>
+
+
+
+
+
+
+</span><!--end of photo flex wrapper-->
+
+
+
+<!--show divider between quotes-->
+<md-divider></md-divider>
+
+
+
+
+
+</div><!--end of ng-repeat-->
+
+
+<span layout="row" layout-align="center center">
+<dir-pagination-controls
+       current-page="current"
+       pagination-id="quote"
+       max-size="5"
+       direction-links="true"
+       boundary-links="false" 
+       on-page-change="pageChanged()">
+    </dir-pagination-controls>
+</span>
+
+
+</div><!--end of container-->
+
+</div><!--end of Search for quote-->
+
+
+
+
+
+<!-- PAGE Update Existing Quote =============================================== -->
+<div ng-show="selection.data == 'quoteManagement'">
+
+<div class="shade">
+
+<b>Update Quote</b><br>
+
+<!--show loading icon if the loading variable is set to true -->
+<p class="text-center" ng-show="loading">
+  <span class="fa fa-meh-o fa-3x fa-spin"></span>
+</p>
+
+<div ng-if="searchQuoteData.id"><i>Quote <% searchQuoteData.id %> Loaded Successfully</i></div>
+
+<div ng-if="searchQuoteData.pdf_sent_id != null">
+    <b class="text-muted">This quote has previously been emailed to client</b>
+</div>
+
+
+
+<br>
+<div ng-if="searchQuoteData.id">
+  Quote Photo Management <a href="" ng-click="quoteCtrl_photo_dialog($event, searchQuoteData, 'update')" class="text-muted">
+  <i class="material-icons">&#xE412;</i>
+  <md-tooltip>Photo of Property</md-tooltip>
+  </a><br>
+</div>
+
+<div ng-if="searchQuoteData.id">View Current Quote PDF <a ng-click="createAndViewPdf($event, 'update');" ng-href="./pdf_view0" target="_blank" class="text-muted">
+  <i class="material-icons">&#xE415;</i>
+  <md-tooltip><%viewpdfmsg%></md-tooltip>
+  </a><br>
+</div>
+
+<span ng-if="popresponse">
+  <span class="md-button-submit-color"><% popresponse %></span><br>
+</span>
+
+
+<form ng-submit="updateQuote(searchQuoteData.id, searchQuoteArray, searchQuoteData)" name="updateQuoteForm" ng-model="searchQuoteData" method="POST" >
+  <input type="hidden" name="_method" value="PUT">
+  <input type="hidden" name="_token" value="{{ csrf_token() }}">
+  <br>
+
+  <!--get the client name for the client id in searchQuoteData-->
+  <span ng-repeat="c in $parent.$parent.$parent.$$childTail.clients">
+    <div ng-if="c.id == searchQuoteData.client_id">	
+        <p ng-init="setClientnameUpdate(c.client_name)"></p>		
+    </div>
+  </span>
+
+  <!--use the numerical index for client_id-->
+  <md-input-container class="md-block">
+    <md-icon class="material-icons">&#xE7FD;</md-icon>
+    <input type="text" placeholder="Client Name" name="client_name" ng-model="clientnameUpdate" readonly="readonly" flex="<% $parent.$parent.$$prevSibling.widths.quote_med %>">
+  </md-input-container> 
+  <md-button type="button" ng-click="showToggleUpdate = !showToggleUpdate" class="md-raised" ng-init="showToggleUpdate = false">
+    <md-tooltip ng-if="showToggleUpdate == false">Show Client Name Search</md-tooltip>
+	Change Client</md-button> 
+
+    <div ng-hide="!showToggleUpdate"> <b>Client Name Search</b>
+    <input ng-model="quoteUpdateQuery" type="text" placeholder="Search by Name" autofocus>
+    <div ng-repeat="c in $parent.$parent.$parent.$$childTail.clients | filter:quoteUpdateQuery | orderBy: '-updated_at' | limitTo: 5">
+        <md-button name="change_client" type="button" ng-click="changeClientId(c.id, c.client_name)" class="md-raised md-buttonNoPaddingMinHeight md-autowidth">
+        	<%c.client_name %><md-tooltip>Select <%c.client_name %></md-tooltip>
+	</md-button>
+	<md-icon class="material-icons">&#xE0CD;</md-icon><%c.contact_number %> 
+    </div>
+  </div>
+
+  <br>
+  <input type="hidden" placeholder="Tags id" name="tags_id" ng-model="searchQuoteData.tags_id">
+  <br>
+
+
+  <md-input-container flex="<% $parent.$parent.$$prevSibling.widths.quote_big %>">
+    <label>Property Type</label>
+    <md-select ng-model="searchQuoteData.property_type">
+      <!--order property type tags by name, but display 'None' tag first-->
+      <md-option ng-repeat="type in tagData.$$state.value.data.property_type | filter:{'name':'None'}" ng-value="type.id">
+        <!--put spaces after the property type 'None' so the label does not disappear-->
+        <div ng-if="type.id == 0"><% type.name %>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+      </md-option>
+      <md-option ng-repeat="type in tagData.$$state.value.data.property_type | orderBy : 'name' | filter:{'name':'!None'}" ng-value="type.id">
+        <!--put spaces after the property type 'None' so the label does not disappear-->
+        <div ng-if="type.id == 5"><% type.name %>&nbsp;&nbsp;&nbsp;</div>
+        <div ng-if="type.id != 0 && type.id != 5"><% type.name %></div>
+      </md-option>
+    </md-select>
+  </md-input-container>
+
+
+
+  <md-input-container flex="<% $parent.$parent.$$prevSibling.widths.quote_big %>"> 
+    <label>Work Required</label>
+    <md-select ng-model="searchQuoteData.work_required">
+      <!--order work required tags by name, but display 'None' tag first-->
+      <md-option ng-repeat="work in tagData.$$state.value.data.work_required | filter:{'name':'None'}" ng-value="work.id">
+	<div ng-if="work.id == 0"><% work.name %>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+      </md-option>
+      <md-option ng-repeat="work in tagData.$$state.value.data.work_required | orderBy : 'name' | filter:{'name':'!None'}" ng-value="work.id">
+        <!--put spaces after the work required type 'None' so the label does not disappear-->
+        <div ng-if="work.id != 0"><% work.name %></div>
+      </md-option>
+    </md-select>
+  </md-input-container>
+
+
+
+  <md-input-container class="md-block" flex="<% $parent.$parent.$$prevSibling.widths.quote_med %>">
+      <input type="text" placeholder="Street Address" name="street_address" ng-model="searchQuoteData.street_address">  
+  </md-input-container>
+  <md-input-container class="md-block" flex="<% $parent.$parent.$$prevSibling.widths.quote_med %>">
+      <input type="text" placeholder="City" name="city" ng-model="searchQuoteData.city">
+  </md-input-container>
+  <md-input-container class="md-block" flex="<% $parent.$parent.$$prevSibling.widths.quote_med %>">
+    <input type="text" placeholder="Postcode" name="postcode" ng-model="searchQuoteData.postcode">
+  </md-input-container>
+
+
+
+  <input type="hidden" placeholder="Quote Details" name="quote_details_array" ng-model="searchQuoteData.quote_details_array">
+
+  <br><br>
+  <md-input-container class="md-block" flex="<% $parent.$parent.$$prevSibling.widths.description %>">
+    <label>Description of Work Required</label>
+      <textarea name="description" ng-model="searchQuoteData.description" md-maxlength="2000"></textarea>
+  </md-input-container>
+
+
+  <!--show the sections and jobs for the quote-->
+  <!--iterate the list of subtitles in searchQuoteArray-->
+  <div ng-repeat="(SubtitleIndexU, eachSubtitle) in searchQuoteArray">
+
+
+    <div class="section"><!--section border for each subtitle-->
+
+      <div class="jobInputContainer">
+        <b><% $index+1 %></b>
+      </div>
+
+      <div class="jobInputContainer">
+        <input type="text" placeholder="Section name" name="subtitle" ng-model="eachSubtitle.subtitle" class="inputSetWidthSection">
+      </div>
+
+
+      <span show-xs hide-gt-xs>
+        <br>
+        <br>
+      </span>
+
+      <div class="jobInputContainer">
+        <md-button name="add_new_job" type="button" ng-click="addNewJob($index, 'update')" class="md-raised md-buttonNoPaddingMinHeight">
+	<i class="fa fa-plus text-muted" aria-hidden="true"></i>&nbsp; <span class="text-muted">New Job</span>
+	<md-tooltip>Add New Job for <%eachSubtitle.subtitle%></md-tooltip>
+	</md-button>
+      </div>
+
+
+      <div class="jobInputContainer">
+        <i class="icon-divider-MP-left icon-divider-NoLeft"></i>
+        <a href="" ng-click="deleteSubSection($index, 'update')" class="text-muted">
+	<span class="md-button-submit-color">
+        <md-tooltip>Delete this Section - <%eachSubtitle.subtitle%></md-tooltip>
+        <i class="material-icons">&#xE92B;</i>
+	</span>
+        </a>
+      </div>
+
+  
+      <div class="jobInputContainer">
+        <i class="icon-divider-MP-left icon-divider icon-divider-MP-right"></i>
+        <a href="" ng-click="moveSectionUp($index, 'update')" class="text-muted">
+        <md-tooltip>Move this Section Up - <%eachSubtitle.subtitle%></md-tooltip>
+        <i class="fa fa-arrow-up fa-1-3" aria-hidden="true"></i>
+        </a>
+     </div>
+
+
+    <div class="jobInputContainer noMargin-right">
+      <i class="icon-divider-MP-left icon-divider-NoLeft icon-divider-MP-right"></i>
+      <a href="" ng-click="moveSectionDown($index, 'update')" class="text-muted">
+      <md-tooltip>Move this Section Down - <%eachSubtitle.subtitle%></md-tooltip>
+      <i class="fa fa-arrow-down fa-1-3" aria-hidden="true"></i>
+      </a>
+    </div>
+
+    <br style="clear:both;">
+
+
+    <!--iterate through the list of jobs for the current subtitle-->
+    <div ng-repeat="each in eachSubtitle.jobs">
+
+      <div class="jobInputContainer">
+        <div ng-if="$index==0"><label>Job</label></div>
+        <input type="text" placeholder="Job" name="job" ng-model="each.job" class="inputSetWidthJob">
+      </div>
+
+      <div class="jobInputContainer">
+        <div ng-if="$index==0"><label>Cost<span class="hideWidthSmall"><i class="fa fa-gbp"></i></span></label></div>
+        <input type="text" placeholder="Cost" name="cost" ng-model="each.cost" class="inputSetWidth">
+      </div>
+
+      <div class="jobInputContainer">
+        <div ng-if="$index==0"><label>Unit</label></div>
+        <input type="text" placeholder="Unit" name="unit" ng-model="each.unit" class="inputSetWidth">
+      </div>
+
+      <div class="jobInputContainer">
+        <div ng-if="$index==0"><label>Qty</label></div>
+        <input type="text" placeholder="Qty" name="qty" ng-model="each.qty" class="inputSetWidth">
+      </div>
+
+      <div style="float:left;margin-right:0px;">
+        <div ng-if="$index==0"><label>Total<span class="hideWidthSmall"><i class="fa fa-gbp"></i></span></label></div>
+        <span hide-gt-xs>
+          <input type="text" placeholder="Total Cost" readonly="readonly" name="total" ng-model="each.total" class="inputSetWidth">
+	</span>
+	<span hide-xs>
+	  <input type="text" placeholder="Total Cost" readonly="readonly" name="total" value="<% each.total | currency : '' %>" class="inputSetWidth">
+	</span>
+      </div>
+
+
+
+      <div style="float:left;margin-right:0px;">
+        <span ng-if="$index==0">
+	  <label>&nbsp;</label>
+        </span>
+        <md-menu md-position-mode="target-right target">
+          <md-button class="md-icon-button md-button-jobs" ng-click="openMenu($mdMenu, $event)">
+            <i class="material-icons md-icon-line-height">&#xE5D2;</i>
+	    <md-tooltip>Job Options</md-tooltip>
+          </md-button>
+          <md-menu-content width="2">
+
+		<md-menu-item>
+		    <md-content class="md-content-no-color" layout="row" layout-align="center">
+			<b><% each.job %></b>
+		    </md-content>
+		</md-menu-item>
+		<md-divider class="md-divider-NoMargin"></md-divider>
+
+                <md-menu-item>
+		    <md-content class="md-content-no-color" layout="row" layout-align="center">
+        		<a href="" ng-click="moveJobUp(SubtitleIndexU, $index, 'update')" class="text-muted">
+        		<md-tooltip>Move this Job Up - <% each.job %></md-tooltip>
+        		<i class="fa fa-arrow-up fontSize-sectionMenuArrows" aria-hidden="true"></i>
+        		</a>
+		    </md-content>
+		</md-menu-item>
+		<md-divider class="md-divider-NoMargin"></md-divider>
+
+		<md-menu-item>
+		    <md-content class="md-content-no-color" layout="row" layout-align="center">
+      			<a href="" ng-click="moveJobDown(SubtitleIndexU, $index, 'update')" class="text-muted">
+      			<md-tooltip>Move this Job Down - <% each.job %></md-tooltip>
+      			<i class="fa fa-arrow-down fontSize-sectionMenuArrows" aria-hidden="true"></i>
+      			</a>
+		    </md-content>
+		</md-menu-item>
+		<md-divider class="md-divider-NoMargin"></md-divider>
+
+		<md-menu-item>
+		    <md-content class="md-content-no-color" layout="row" layout-align="center">
+        		<a href="" ng-click="deleteJob(SubtitleIndexU, $index, 'update')" class="text-muted">
+		        <span class="md-button-submit-color">
+        		<md-tooltip>Delete this Job - <% each.job %></md-tooltip>
+        		<i class="material-icons fontSize-sectionMenuDelete">&#xE92B;</i>
+			</span>
+        		</a>
+		    </md-content>
+		</md-menu-item>
+	
+          </md-menu-content>
+        </md-menu>
+      </div>
+
+
+      <br style="clear:both;">
+
+    </div><!--end of ng-repeat jobs-->
+
+
+    <!-- show subtotal field for each section-->
+    <div class="jobInputContainer">
+      <div class="inputSetWidth">&nbsp;</div>
+    </div>
+
+    <div class="jobInputContainer">
+      <div class="inputSetWidth">&nbsp;</div>
+    </div>
+
+    <div class="jobInputContainer">
+      <div class="inputSetWidth">&nbsp;</div>
+    </div>
+
+    <div class="jobInputContainer">
+      <div class="inputSetWidthJob priceAlignMargin"><span style="float:right"><b>Subtotal </b><i class="fa fa-gbp"></i></span></div>
+    </div>
+
+    <div class="jobInputContainer">
+      <span hide-gt-xs>
+        <input type="text" placeholder="Subtotal" readonly="readonly" name="job" value="<% eachSubtitle.subtotal | currency : '' %>" class="inputSetWidthWidePortrait">
+      </span>
+      <span hide-xs>
+        <input type="text" placeholder="Subtotal" readonly="readonly" name="job" value="<% eachSubtitle.subtotal | currency : '' %>" class="inputSetWidth">
+      </span>
+    </div>
+
+    <br style="clear:both;">
+
+
+
+    </div><!--end of border section-->
+    <br><br>
+
+  </div><!--end of ng-repeat subtitles-->
+  
+
+  <md-button name="add_new_subtitle" type="button" ng-click="addNewSubtitle('update')" class="md-raised md-buttonNoMargin"><i class="fa fa-plus" aria-hidden="true"></i>&nbsp; New Section</md-button>
+  <br>
+  <br>
+
+
+  <input type="hidden" ng-bind="getSubtotalVars('update')">
+
+  <md-input-container class="md-block">
+   <ng-md-icon ng-if="searchQuoteData.total_excluding_vat >= 0"><i class="fa fa-1-5 fa-gbp"></i></ng-md-icon>
+    <input type="text" placeholder="Total Excluding Vat" name="total_excluding_vat" readonly="readonly" ng-model="total_excluding_vat_currency_update" flex="<% $parent.$parent.$$prevSibling.widths.quote_small %>">
+  </md-input-container>
+
+  <md-input-container class="md-block">
+    <ng-md-icon ng-if="searchQuoteData.net_total >= 0"><i class="fa fa-1-5 fa-gbp"></i></ng-md-icon>
+    <input type="text" placeholder="Net Total including <% vat_rate.$$state.value.data %>% VAT" name="net_total" readonly="readonly" ng-model="net_total_currency_update" flex="<% $parent.$parent.$$prevSibling.widths.quote_small %>">
+  </md-input-container>
+
+
+
+  <br>
+
+  <md-button type="submit" class="md-raised md-accent md-buttonNoMargin md-button-submit-color">
+  <i class="material-icons">&#xE161;</i> Update this Quote
+  </md-button>
+
+
+</form>
+
+
+</div><!--end of shade container-->
+
+
+</div><!--end of Update quote-->
+
+
+
+
+
+
+
+<!-- PAGE Create New Quote =============================================== -->
+<div ng-show="selection.data == 'createQuote'">
+
+<div class="shade">
+
+<b>Create New Quote</b>
+<br>
+
+<!--show loading icon if the loading variable is set to true -->
+<p class="text-center" ng-show="loading">
+  <span class="fa fa-meh-o fa-3x fa-spin"></span>
+</p>
+
+<!--only show pdf button if there is cost data entered for quote-->
+<div ng-if="quoteArray[0].subtotal != ''">View Current Quote PDF 
+  <a ng-click="createAndViewPdf($event, 'create')" ng-href="./pdf_view0" target="_blank" class="text-muted">
+  <i class="material-icons">&#xE415;</i>
+  <md-tooltip><% viewpdfmsg %></md-tooltip>
+  </a>
+  <br>
+
+  <span class="md-button-submit-color">
+      <% popresponse %>
+  </span>
+</div>
+
+<br>
+
+<md-button type="button" ng-click="resetQuote()" class="md-raised md-accent md-button-reset-quote">
+<md-tooltip md-direction="right">Clear this Quote data</md-tooltip>Reset This Quote</md-button>
+
+
+
+
+<form ng-submit="createQuote()" name="submitQuoteForm">
+
+
+  <md-input-container class="md-block">
+    <md-icon class="material-icons">&#xE7FD;</md-icon>
+    <input type="text" placeholder="Client Name" name="client_id" ng-model="clientnameCreate" readonly="readonly" flex="<% $parent.$parent.$$prevSibling.widths.quote_med %>">
+  </md-input-container>
+
+
+  <!--Select the Client name-->
+  <md-button type="button" ng-click="showToggleCreate = !showToggleCreate" class="md-raised" ng-init="showToggleCreate = false">
+	 <md-tooltip ng-if="showToggleUpdate == false">Show Client Name Search</md-tooltip>
+	Select Client
+  </md-button>
+  <div ng-hide="!showToggleCreate"> <b>Client Name Search</b>
+    <input ng-model="quoteCreateQuery" type="text" placeholder="Search by Name" autofocus>
+    <div ng-repeat="c in $parent.$parent.$parent.$$childTail.clients | filter:quoteCreateQuery | orderBy: '-updated_at' | limitTo: 5">
+	<md-button name="change_client" type="button" ng-click="changeCreateClientId(c.id, c.client_name)" class="md-raised md-buttonNoPaddingMinHeight">
+      		<% c.client_name %><md-tooltip>Select <% c.client_name %></md-tooltip>
+      </md-button>
+      <md-icon class="material-icons">&#xE0CD;</md-icon><%c.contact_number %> 
+    </div>
+  </div>
+  <br><!--so tag options are on new line from Select Client button-->
+
+  <input type="hidden" placeholder="Tags id" name="tags_id" ng-model="quoteData.tags_id">
+
+  <md-input-container>
+    <label>Property Type</label>
+    <md-select ng-model="quoteData.property_type">
+      <!--order property type tags by name, but display 'None' tag first-->
+      <md-option ng-repeat="type in tagData.$$state.value.data.property_type | filter:{'name':'None'}" ng-value="type.id">
+        <!--put spaces after the property type 'None' so the label does not disappear-->
+        <div ng-if="type.id == 0"><% type.name %>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+      </md-option>
+      <md-option ng-repeat="type in tagData.$$state.value.data.property_type | orderBy : 'name' | filter:{'name':'!None'}" ng-value = "type.id">
+      <div ng-if="type.id == 5"><% type.name %>&nbsp;&nbsp;&nbsp;</div>
+      <div ng-if="type.id != 0 && type.id != 5"><% type.name %></div>
+      </md-option>
+    </md-select>
+  </md-input-container>
+
+
+  <md-input-container>
+    <label>Work Required</label>
+    <md-select ng-model="quoteData.work_required">
+      <!--order work required tags by name, but display 'None' tag first-->
+      <md-option ng-repeat="work in tagData.$$state.value.data.work_required | filter:{'name':'None'}" ng-value="work.id">
+        <div ng-if="work.id == 0"><% work.name %>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+      </md-option>
+      <md-option ng-repeat="work in tagData.$$state.value.data.work_required | orderBy : 'name' | filter:{'name':'!None'}" ng-value="work.id">
+        <div ng-if="work.id != 0"><% work.name %></div>
+      </md-option>
+    </md-select>
+  </md-input-container>
+
+
+
+
+  <md-input-container class="md-block" flex="<% $parent.$parent.$$prevSibling.widths.quote_med %>">
+    <input type="text" placeholder="Street Address" name="street_address" ng-model="quoteData.street_address">
+  </md-input-container>
+  <md-input-container class="md-block" flex="<% $parent.$parent.$$prevSibling.widths.quote_med %>">
+    <input type="text" placeholder="City" name="city" ng-model="quoteData.city">
+  </md-input-container>
+  <md-input-container class="md-block" flex="<% $parent.$parent.$$prevSibling.widths.quote_med %>">
+    <input type="text" placeholder="Postcode" name="postcode" ng-model="quoteData.postcode">
+  </md-input-container>
+
+  <input type="hidden" placeholder="Quote Details" name="quote_details_array" ng-model="quoteData.quote_details_array">
+
+
+  <br><br>
+  <md-input-container class="md-block" flex="<% $parent.$parent.$$prevSibling.widths.description %>">
+    <label>Description of Work Required</label>
+    <textarea name="description" ng-model="quoteData.description" md-maxlength="2000"></textarea>
+  </md-input-container>
+
+
+  <!--iterate the list of subtitles held in quoteArray-->
+  <!--store index of the subtitle for use by ng-repeat jobs later-->
+  <div ng-repeat="(SubtitleIndex, eachSubtitle) in quoteArray">
+
+
+  <div class="section"><!--section border for each subtitle-->
+
+    <div class="jobInputContainer">
+      <b><% $index+1 %></b>
+    </div>
+
+    <div class="jobInputContainer">
+      <input type="text" placeholder="Section name" name="subtitle" ng-model="eachSubtitle.subtitle" class="inputSetWidthSection">
+    </div>
+
+
+    <span show-xs hide-gt-xs>
+      <br>
+      <br>
+    </span>
+
+ 
+    <div class="jobInputContainer">
+      <md-button name="add_new_job" type="button" ng-click="addNewJob($index, 'create')" class="md-raised md-buttonNoPaddingMinHeight">
+      <i class="fa fa-plus text-muted" aria-hidden="true"></i>&nbsp; <span class="text-muted">New Job</span>
+      <md-tooltip>Add New Job for <%eachSubtitle.subtitle%></md-tooltip>
+      </md-button>
+    </div>
+
+
+    <div class="jobInputContainer">
+        <i class="icon-divider-MP-left icon-divider-NoLeft"></i>
+        <a href="" ng-click="deleteSubSection($index, 'create')" class="text-muted">
+	<span class="md-button-submit-color">
+        <md-tooltip>Delete this Section - <%eachSubtitle.subtitle%></md-tooltip>
+        <i class="material-icons">&#xE92B;</i>
+	</span>
+        </a>
+    </div>
+
+
+    <div class="jobInputContainer">
+      <i class="icon-divider-MP-left icon-divider icon-divider-MP-right"></i>
+      <a href="" ng-click="moveSectionUp($index, 'create')" class="text-muted">
+      <md-tooltip>Move this Section Up - <%eachSubtitle.subtitle%></md-tooltip>
+      <i class="fa fa-arrow-up fa-1-3" aria-hidden="true"></i>
+      </a>
+    </div>
+
+
+    <div class="jobInputContainer noMargin-right">
+      <i class="icon-divider-MP-left icon-divider-NoLeft icon-divider-MP-right"></i>
+      <a href="" ng-click="moveSectionDown($index, 'create')" class="text-muted">
+      <md-tooltip>Move this Section Down - <%eachSubtitle.subtitle%></md-tooltip>
+      <i class="fa fa-arrow-down fa-1-3" aria-hidden="true"></i>
+      </a>
+    </div>
+
+
+
+    <br style="clear:both;">
+
+    <!--iterate through the list of jobs for the current subtitle-->
+    <div ng-repeat="each in eachSubtitle.jobs">
+
+      <div class="jobInputContainer">
+        <div ng-if="$index==0">
+        <label>Job</label>
+        </div>
+        <input type="text" placeholder="Job" name="job" ng-model="each.job" class="inputSetWidthJob">
+      </div>
+
+      <div class="jobInputContainer">
+        <div ng-if="$index==0">
+          <label>Cost<span class="hideWidthSmall"><i class="fa fa-gbp"></i></span></label>
+        </div>
+        <input type="text" placeholder="Cost" name="cost" ng-model="each.cost" class="inputSetWidth">
+      </div>
+
+    <div class="jobInputContainer">
+      <div ng-if="$index==0">
+        <label>Unit</label>
+      </div>
+      <input type="text" placeholder="Unit" name="unit" ng-model="each.unit" class="inputSetWidth">
+    </div>
+
+    <div class="jobInputContainer">
+      <div ng-if="$index==0">
+        <label>Qty</label>
+      </div>
+      <input type="text" placeholder="Qty" name="qty" ng-model="each.qty" class="inputSetWidth">
+    </div>
+
+    <!--calculate the total for each job
+    <b>Total</b><input ng-init="each.total = (each.cost * each.qty)" ng-change="each.total = (each.cost * each.qty)" ng-model="each.total">
+    -->
+
+    <div style="float:left;margin-right:0px;">
+      <div ng-if="$index==0">
+        <label>Total<span class="hideWidthSmall"><i class="fa fa-gbp"></i></span></label>
+      </div>
+      <span hide-gt-xs>
+        <input type="text" placeholder="Total Cost" readonly="readonly" name="total" ng-model="each.total" class="inputSetWidth">
+      </span>
+      <span hide-xs>
+        <input type="text" placeholder="Total Cost" readonly="readonly" name="total" value="<% each.total | currency : '' %>" class="inputSetWidth">
+      </span>
+    </div>
+
+
+    
+
+    <div style="float:left;margin-right:0px;">
+        <span ng-if="$index==0">
+	  <label>&nbsp;</label>
+        </span>
+        <md-menu md-position-mode="target-right target">
+          <md-button class="md-icon-button md-button-jobs" ng-click="openMenu($mdMenu, $event)">
+            <i class="material-icons md-icon-line-height">&#xE5D2;</i>
+	    <md-tooltip>Job Options</md-tooltip>
+          </md-button>
+          <md-menu-content width="2">
+
+		<md-menu-item>
+		    <md-content class="md-content-no-color" layout="row" layout-align="center">
+			<b><% each.job %></b>
+		    </md-content>
+		</md-menu-item>
+		<md-divider class="md-divider-NoMargin"></md-divider>
+
+                <md-menu-item>
+		    <md-content class="md-content-no-color" layout="row" layout-align="center">
+        		<a href="" ng-click="moveJobUp(SubtitleIndex, $index, 'create')" class="text-muted">
+        		<md-tooltip>Move this Job Up - <% each.job %></md-tooltip>
+        		<i class="fa fa-arrow-up fontSize-sectionMenuArrows" aria-hidden="true"></i>
+        		</a>
+		    </md-content>
+		</md-menu-item>
+		<md-divider class="md-divider-NoMargin"></md-divider>
+
+		<md-menu-item>
+		    <md-content class="md-content-no-color" layout="row" layout-align="center">
+      			<a href="" ng-click="moveJobDown(SubtitleIndex, $index, 'create')" class="text-muted">
+      			<md-tooltip>Move this Job Down - <% each.job %></md-tooltip>
+      			<i class="fa fa-arrow-down fontSize-sectionMenuArrows" aria-hidden="true"></i>
+      			</a>
+		    </md-content>
+		</md-menu-item>
+		<md-divider class="md-divider-NoMargin"></md-divider>
+
+		<md-menu-item>
+		    <md-content class="md-content-no-color" layout="row" layout-align="center">
+        		<a href="" ng-click="deleteJob(SubtitleIndex, $index, 'create')" class="text-muted">
+			<span class="md-button-submit-color">
+        		<md-tooltip>Delete this Job - <% each.job %></md-tooltip>
+        		<i class="material-icons fontSize-sectionMenuDelete">&#xE92B;</i>
+			</span>
+        		</a>
+		    </md-content>
+		</md-menu-item>
+	
+          </md-menu-content>
+        </md-menu>
+    </div>
+
+
+
+    <br style="clear:both;">
+
+
+    </div><!--end of ng-repeat jobs-->
+
+
+   
+    <!-- show subtotal field for each section-->
+    <div class="jobInputContainer">
+      <div class="inputSetWidth">&nbsp;</div>
+    </div>
+
+    <div class="jobInputContainer">
+      <div class="inputSetWidth">&nbsp;</div>
+    </div>
+
+    <div class="jobInputContainer">
+      <div class="inputSetWidth">&nbsp;</div>
+    </div>
+
+    <div class="jobInputContainer">
+      <div class="inputSetWidthJob priceAlignMargin"><span style="float:right"><b>Subtotal </b><i class="fa fa-gbp"></i></span></div>
+    </div>
+
+    <div class="jobInputContainer">
+      <span hide-gt-xs>
+        <input type="text" placeholder="Subtotal" readonly="readonly" name="job" value="<% eachSubtitle.subtotal | currency : '' %>" class="inputSetWidthWidePortrait">
+      </span>
+      <span hide-xs>
+        <input type="text" placeholder="Subtotal" readonly="readonly" name="job" value="<% eachSubtitle.subtotal | currency : '' %>" class="inputSetWidth">
+      </span>  
+    </div>
+
+    <br style="clear:both;">
+
+
+
+
+
+  </div><!--end of div border section-->
+  <br><br>
+
+  </div><!--end of ng-repeat subtitles-->
+  
+
+
+  <md-button name="add_new_subtitle" type="button" ng-click="addNewSubtitle('create')" class="md-raised md-buttonNoMargin"><i class="fa fa-plus" aria-hidden="true"></i>&nbsp; New Section</md-button>
+  <br>
+  <br>
+
+
+
+  <!--calculate the total excluding VAT by adding up all subtotals from each subtitle array-->
+  <input type="hidden" ng-bind="getSubtotalVars('create')">
+
+  <md-input-container class="md-block">
+    <!-- £ sign-->
+    <ng-md-icon ng-if="quoteData.total_excluding_vat >= 0"><i class="fa fa-1-5 fa-gbp"></i></ng-md-icon>
+    <input type="text" placeholder="Total Excluding Vat" name="total_excluding_vat" readonly="readonly" ng-model="total_excluding_vat_currency_create" flex="<% $parent.$parent.$$prevSibling.widths.quote_small %>">
+  </md-input-container>
+
+  <md-input-container class="md-block">
+    <ng-md-icon ng-if="quoteData.net_total >= 0"><i class="fa fa-1-5 fa-gbp"></i></ng-md-icon>
+    <input type="text" placeholder="Net Total including <% vat_rate.$$state.value.data %>% VAT" name="net_total" readonly="readonly" ng-model="net_total_currency_create" flex="<% $parent.$parent.$$prevSibling.widths.quote_small %>">
+  </md-input-container>
+
+  <br>
+
+  <md-button type="submit" class="md-raised md-accent md-buttonNoMargin md-button-submit-color">
+    <i class="material-icons">&#xE161;</i> Create New Quote
+  </md-button>
+
+
+
+</form>
+
+
+</div><!--end of shade container-->
+
+</div><!--end of Create new quote-->
+
+
+
+
+<!-- PAGE Quote - Display after Create/update/delete record or email quote to client =============================================== -->
+<div ng-show="selection.data == 'quoteCreated'">
+    <h2 class="text-muted"><% status %></h2>
+    <!--redirect to client management page after 5 seconds-->
+</div>
+
+
+
+<div ng-show="selection.data == 'quoteDeleted'">
+    <h2 class="text-muted"><% status %></h2>
+</div>
+
+
+
+<div ng-show="selection.data == 'quoteUpdated'">
+    <h2 class="text-muted"><% status %></h2>
+</div>
+
+
+<div ng-show="selection.data == 'pdf_sent_to_client'">
+    <h2 class="text-muted"><% status %></h2>
+</div>
+
+
+
+
+
+</div><!--end of Photo Controller-->
+</div><!--end of PDF Controller-->
+</div><!--end of Quote Controller-->
+
+
+
+
+
+
+
+<div ng-controller = "clientController">
+
+
+
+
+
+
+
+<!--Client Status text -->
+<!--div ng-show="selection.data == 'updateClient' || selection.data == 'searchClient' || selection.data == 'createClient' ">
+
+<i class="material-icons">&#xE88F;</i> Client Status Info: <% status %><br></div-->
+
+
+<!-- PAGE View all Clients =============================================== -->
+<div ng-show="selection.data == 'searchClient'">
+
+<div class="shade">
+
+
+<b>View all Clients</b>
+
+
+<!--Client name search-->
+<md-input-container class="md-block">
+  <input ng-model="nameSearchquery" type="text" placeholder="Search by client name" autofocus flex="<% $$prevSibling.$$prevSibling.widths.client %>">
+</md-input-container>
+
+
+
+<!--Display Client data-->
+<div dir-paginate="c in clients | filter:{client_name:nameSearchquery} | orderBy: 'client_name' | itemsPerPage:5" pagination-id="clientName">
+       
+
+
+<span class="clients-flex-container">
+
+  <span class="client-name-flex">
+    <md-icon class="material-icon">&#xE7FD;</md-icon>
+    <% c.client_name %>
+    <span ng-if="c.id != '0'">
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    </span>
+  </span>
+
+  <span class="client-contact-flex">
+    <span class="line1-right"><!--mobile portrait-->
+    <!--do not show contact for client 0-->
+    <span ng-if="c.id != '0'">
+      <a class="link" href="tel:<% c.contact_number %>">
+      <md-icon class="material-icons">&#xE0CD;</md-icon><% c.contact_number %></a>
+    </span>
+    </span>
+
+    <!--do not show space for client 0-->
+    <span ng-if="c.id != '0'">
+    <i class="icon-divider-NoLeft"></i>
+    </span>
+
+    <!--show divider between quotes on mobile-->
+    <div hide-gt-xs flex>
+      <br class="noSpace">
+    </div>
+
+  </span>
+
+  <span class="client-buttons-flex">
+    <!--do not show delete button for client 0-->
+    <span ng-if="c.id != '0'">
+      <a href="" ng-click="deleteClientCheck(c.id, c.client_name)" class="text-muted">
+      <span class="md-button-submit-color">
+      <md-tooltip>Delete this Client - <% c.client_name %></md-tooltip>
+      <i class="material-icons icon-divider-NoLeft">&#xE92B;</i>
+      </span>
+      </a> 
+    </span>
+
+    <!--show space for client 0 in place of delete icon-->
+    <span ng-if="c.id == 0">
+      <i class="icon-divider">&nbsp;<span show-xs hide-gt-xs>&nbsp;&nbsp;&nbsp;</span></i>
+    </span>
+
+    <a href="" ng-click="clientUpdate(c.id)" class="text-muted">
+    <md-tooltip>Edit this Client - <% c.client_name %></md-tooltip>
+    <i class="material-icons icon-divider">&#xE14E;</i>
+    </a>
+
+
+    <!--save an instance of the 'filtered by name' result as filtered_cid-->
+    <span ng-repeat = "quo in filtered_cid = ($parent.$$prevSibling.quotes | nameidfilter:quo:c.id )">  
+    </span>
+
+
+    <span ng-if="filtered_cid.length >= 1">
+      <md-button class="md-raised" ng-click="show_clientquotes_Dialog($event, c)">
+      <md-tooltip>View all Quotes for <% c.client_name %></md-tooltip>
+      <font class="text-muted">Quotes created</font>
+      </md-button>
+    </span>
+
+    <span ng-if="filtered_cid.length < 1">
+      <span class="md-button-submit-color">No quotes</span>
+    </span> 
+
+  </span>
+
+
+</span><!--end of flex container-->
+
+
+
+<!--show divider between quotes-->
+<md-divider></md-divider>
+
+
+
+
+</div>
+
+
+<span layout="row" layout-align="center center">
+<dir-pagination-controls
+       pagination-id="clientName"
+       max-size="5"
+       direction-links="true"
+       boundary-links="false" >
+    </dir-pagination-controls>
+</span>
+
+
+</div><!--end of shade container-->
+</div><!--end of Search for client-->
+
+
+
+
+
+
+<!-- PAGE Update existing Client =============================================== -->
+<div ng-show="selection.data == 'updateClient'">
+
+<div class="shade">
+
+
+<b>Update Client</b><br>
+<div ng-if="searchClientData.id">
+  <i>Client id <% searchClientData.id %> Loaded Successfully</i><br> 
+  <br>
+</div>
+
+<form ng-submit="updateClient(searchClientData)" name="updateClientForm" ng-model="searchClientData" method="POST">
+  <input type="hidden" name="_method" value="PUT">
+  <input type="hidden" name="_token" value="{{ csrf_token() }}">
+
+
+  <md-content class="md-no-momentum">
+
+  <md-input-container class="md-no-float md-block">
+    <md-icon class="material-icons">&#xE7FD;</md-icon>
+    <label>Client Name</label>
+    <input type="text" required name="client_name" ng-model="searchClientData.client_name" flex="<% $$prevSibling.$$prevSibling.widths.client %>">
+    <div ng-messages="updateClientForm.client_name.$error">
+    <div ng-message="required">Client Name is required.</div>
+    </div>
+  </md-input-container>
+
+
+  <md-input-container class="md-no-float md-block">
+    <md-icon class="material-icons">&#xE0CD;</md-icon>
+    <label>Phone Number</label>
+    <input type="text" required name="contact_number" ng-model="searchClientData.contact_number" flex="<% $$prevSibling.$$prevSibling.widths.client %>">
+    <div ng-messages="updateClientForm.contact_number.$error">
+    <div ng-message="required">Phone Number is required.</div>
+    </div>
+  </md-input-container>
+
+  <md-input-container class="md-no-float md-block">
+    <md-icon class="material-icons">&#xE0BE;</md-icon>
+    <label>Email Address</label>
+    <input type="text" required name="email" ng-model="searchClientData.email" flex="<% $$prevSibling.$$prevSibling.widths.client %>">
+    <div ng-messages="updateClientForm.email.$error">
+    <div ng-message="required">Email Address is required.</div>
+    </div>
+  </md-input-container>
+
+  <br>
+  <md-button type="submit" class="md-raised md-accent md-buttonNoMargin md-button-submit-color">
+    <i class="material-icons">&#xE161;</i> Update this Client
+  </md-button>
+
+
+  </md-content>
+</form>
+
+</div><!--end of shade container-->
+<br>
+
+</div><!--end of Update client-->
+
+
+
+
+
+
+<!-- PAGE Create New Client =============================================== -->
+<div ng-show="selection.data == 'createClient'">
+
+<div class="shade">
+
+
+<b>Create New Client</b>
+
+<form ng-submit="submitClient()" name="submitClientForm">
+
+  <md-input-container class="md-no-float md-block">
+    <md-icon class="material-icons">&#xE7FD;</md-icon>
+    <label>Client Name</label>
+    <input type="text" required name="client_name" ng-model="clientData.client_name" flex="<% $$prevSibling.$$prevSibling.widths.client %>">
+    <div ng-messages="submitClientForm.client_name.$error">
+    <div ng-message="required">Client Name is required.</div>
+    </div>
+  </md-input-container>
+
+  <md-input-container class="md-no-float md-block">
+    <md-icon class="material-icons">&#xE0CD;</md-icon>
+    <label>Phone Number</label>
+    <input type="text" required name="contact_number" ng-model="clientData.contact_number" flex="<% $$prevSibling.$$prevSibling.widths.client %>">
+    <div ng-messages="submitClientForm.contact_number.$error">
+    <div ng-message="required">Phone Number is required.</div>
+    </div>
+  </md-input-container>
+
+  <md-input-container class="md-no-float md-block">
+    <md-icon class="material-icons">&#xE0BE;</md-icon>
+    <label>Email Address</label>
+    <input type="text" required name="email" ng-model="clientData.email" flex="<% $$prevSibling.$$prevSibling.widths.client %>">
+    <div ng-messages="submitClientForm.email.$error">
+    <div ng-message="required">Email Address is required.</div>
+    </div>
+  </md-input-container>
+
+  <br>
+  <md-button type="submit" class="md-raised md-accent md-buttonNoMargin md-button-submit-color">
+    <i class="material-icons">&#xE161;</i> Create new Client
+  </md-button>
+
+
+
+
+</form>
+
+
+</div><!--end of shade container-->
+
+</div><!--end of Create new client-->
+
+
+
+
+
+
+<!-- PAGE Client - Display after Created/updated/deleted record =============================================== -->
+<div ng-show="selection.data == 'clientCreated'">
+    <h2 class="text-muted"><% status %></h2>
+    <!--redirect to client management page after 5 seconds-->
+</div>
+
+
+
+<div ng-show="selection.data == 'clientDeleted'">
+    <h2 class="text-muted"><% status %></h2>
+</div>
+
+
+
+<div ng-show="selection.data == 'clientUpdated'">
+    <h2 class="text-muted"><% status %></h2>
+</div>
+
+
+
+
+
+
+
+
+
+<div ng-controller = "tagsController">
+
+
+
+
+
+<!-- PAGE Tags - Work Required =============================================== -->
+<div ng-show="selection.data == 'workRequired' ">
+
+<div class="shade">
+
+<b>Work Required</b><br><br>
+
+
+<div ng-repeat="work in tags.work_required | orderBy: 'name'">
+  <div ng-if="work.id != '0' "><!--dont show the None Option-->
+
+  <!--Show the Work Required Tags-->
+  <span ng-hide="work_required_edit">
+
+
+    <a href="" class="text-muted" ng-click="deleteTagCheck(event, work.id, work.name)">
+    <span class="md-button-submit-color"><i class="material-icons icon-divider-Bigger-NoLeft">&#xE92B;</i>
+    <md-tooltip>Delete this Tag - <% work.name %></md-tooltip>
+    </span>
+    </a>
+
+
+    <a href="" class="text-muted" ng-click="work_required_edit = true">
+    <i class="material-icons icon-divider-Bigger">&#xE14E;</i>
+    <md-tooltip>Update this Tag - <% work.name %></md-tooltip>
+    </a>
+
+    <% work.name %> 
+  </span>
+
+
+  <!--show when click update tag name-->
+  <span ng-show="work_required_edit">
+
+    <input class="inputButtonRight" type="text" ng-model="work.name" placeholder="Tag Name" ng-required>
+
+    <md-button class="md-raised md-buttonNoMinWidth" ng-click="work_required_edit = false; TagUpdate()">
+      <% $parent.$parent.$parent.$parent.$$prevSibling.$$prevSibling.widths.update_tag %>
+    </md-button>
+
+    <md-button href="" ng-click="work_required_edit = false" class="md-small md-buttonNoMarginRight">
+      <span class="material-icons">&#xE5CD;</span><md-tooltip>Cancel</md-tooltip>
+    </md-button>
+  </span>
+
+
+  <!--divider between each tag on mobile-->
+  <span hide-gt-xs flex>
+  <md-divider></md-divider>
+  </span>
+  </div>
+
+
+
+</div>
+
+<br>
+
+
+
+<!--form to add a new work required tag-->
+<form name="NewWorkRequiredTagForm" ng-model="newWorkRequiredTag" ng-submit="submitNewWorkRequiredTag(newWorkRequiredTag)" method="POST" >
+  <input type="hidden" name="_method" value="PUT">
+  <input type="hidden" name="_token" value="{{ csrf_token() }}">
+
+  <md-input-container class="md-block">
+    <input ng-model="newWorkRequiredTag" type="text" placeholder="Add 'Work Required' Tag" autofocus flex="<% $parent.$$prevSibling.$$prevSibling.widths.client %>">
+  </md-input-container>
+
+  <md-button type="submit" class="md-raised md-accent md-buttonNoMargin md-button-submit-color">
+    <i class="material-icons">&#xE161;</i> Add New Tag <span ng-if="newWorkRequiredTag && newWorkRequiredTag != ''">: </span><% newWorkRequiredTag %>
+  </md-button>
+
+</form>
+
+
+
+
+</div><!--end of shade container-->
+
+</div><!--end of Tags - work required-->
+
+
+
+
+
+
+
+
+<!-- PAGE Tags - Property Type =============================================== -->
+<div ng-show="selection.data == 'propertyType' ">
+
+<div class="shade">
+
+<b>Property Type</b><br><br>
+
+<div ng-repeat="property in tags.property_type | orderBy : 'name'">
+  <div ng-if="property.id != '0' "><!--dont show the None Option-->
+    
+    <span ng-hide="property_type_edit">
+    
+
+    <a href="" class="text-muted" ng-click="property_type_edit = true">
+    <i class="material-icons icon-divider-Bigger-NoLeft">&#xE14E;</i>
+    <md-tooltip>Update this Tag - <% property.name %></md-tooltip>
+    </a>
+
+    <span class="line1-right">
+      <img ng-src="img/property/<% property.img %>" class="img-rounded" style="height:40px">
+    </span>
+
+    <span hide-xs flex><i class="icon-divider-Bigger-NoLeft"></i></span>
+      <% property.name %>
+    </span>
+
+    <!--show when click update tag name-->
+    <span ng-show="property_type_edit">
+
+      <input class="inputButtonRight" type="text" ng-model="property.name" placeholder="Tag Name" ng-required>
+
+      <md-button class="md-raised md-buttonNoMinWidth" ng-click="property_type_edit = false; TagUpdate()">
+        <% $parent.$parent.$parent.$parent.$$prevSibling.$$prevSibling.widths.update_tag %>
+      </md-button>
+
+      <md-button href="" ng-click="property_type_edit = false" class="md-small md-buttonNoMarginRight">
+        <i class="material-icons">&#xE5CD;</i><md-tooltip>Cancel</md-tooltip>
+      </md-button>
+    </span>
+
+ 
+
+  <!--divider between each tag on mobile-->
+  <span ng-if ="property.id != 0">
+    <span hide-gt-xs flex>
+      <md-divider></md-divider>
+    </span>
+  </span>
+
+ </div>
+</div>
+
+
+</div><!--end of shade container-->
+
+</div><!--end of Tags - property type-->
+
+
+
+
+
+
+
+</div><!--end of Tags Controller-->
+
+
+
+
+<div ng-controller = "VatRateController">
+
+
+
+
+
+<!-- PAGE Settings - VAT Rate =============================================== -->
+<div ng-show="selection.data == 'settings_vat'">
+
+<div class="shade">
+
+<b>Set the VAT Rate used for a quote</b>
+<br><br>
+
+
+<!--form to view existing vat rate and to enter a new vat rate-->
+<form ng-submit="updateVatRate(vat_rate)" name="updateVatRateForm" ng-model="vat_rate" method="POST" >
+  <input type="hidden" name="_method" value="PUT">
+  <input type="hidden" name="_token" value="{{ csrf_token() }}">
+
+  <md-input-container class="md-block">
+    <input type="text" placeholder="VAT Rate %" name="rate" ng-model="vat_rate" required flex="<% $parent.$$prevSibling.$$prevSibling.widths.rate %>">
+  </md-input-container>
+
+  <md-button type="submit" class="md-raised md-accent md-buttonNoMargin md-button-submit-color" ng-click="updateVatRateInQuote(vat_rate)">
+    <i class="material-icons">&#xE161;</i> Update VAT Rate
+  </md-button>
+
+
+</form>
+
+
+</div><!--end of shade container-->
+
+</div><!--end of Settings - vat rate-->
+
+
+
+
+
+
+
+</div><!--end of Vat Rate Controller-->
+
+
+
+
+<div ng-controller = "CompanyAddressController">
+
+
+
+
+
+<!-- PAGE Settings - Company Address =============================================== -->
+<div ng-show="selection.data == 'settings_address'">
+
+<div class="shade">
+
+<b>Set the Company Address shown on a quote</b><br>
+
+<form ng-submit="updateCompanyAddress(company_address)" name="updateCompanyForm" ng-model="company_address" method="POST">
+  <input type="hidden" name="_method" value="PUT">
+  <input type="hidden" name="_token" value="{{ csrf_token() }}">
+
+  <md-content class="md-no-momentum">
+
+  <md-input-container class="md-no-float md-block">
+    <md-icon class="material-icons">&#xE7FD;</md-icon>
+    <label>Company Name</label>
+
+    <!--set the flex box width based on laptop or mobile screen width-->
+    <input type="text" required name="name" ng-model="company_address.name" flex="<% $parent.$$prevSibling.$$prevSibling.widths.address_big %>">
+    <div ng-messages="updateCompanyForm.name.$error">
+    <div ng-message="required">Company Name is required</div>
+    </div>
+  </md-input-container>
+
+  <md-input-container class="md-no-float md-block" flex="<% $parent.$$prevSibling.$$prevSibling.widths.address %>">
+    <label>Address</label>
+    <input type="text" name="address" ng-model="company_address.address">
+  </md-input-container>
+
+  <md-input-container class="md-no-float md-block" flex="<% $parent.$$prevSibling.$$prevSibling.widths.address %>">
+    <label>City</label>
+    <input type="text" name="city" ng-model="company_address.city">
+  </md-input-container>
+
+  <md-input-container class="md-no-float md-block" flex="<% $parent.$$prevSibling.$$prevSibling.widths.address %>">
+    <label>County</label>
+    <input type="text" name="county" ng-model="company_address.county">
+  </md-input-container>
+
+  <md-input-container class="md-no-float md-block" flex="<% $parent.$$prevSibling.$$prevSibling.widths.address %>">
+    <label>Postcode</label>
+    <input type="text" name="postcode" ng-model="company_address.postcode">
+  </md-input-container>
+
+  <md-input-container class="md-no-float md-block">
+    <md-icon class="material-icons">&#xE0BE;</md-icon>
+    <label>Email</label>
+    <input type="text" required name="email" ng-model="company_address.email" flex="<% $parent.$$prevSibling.$$prevSibling.widths.address_big %>">
+  </md-input-container>
+
+  <md-input-container class="md-no-float md-block">
+    <md-icon class="material-icons">&#xE0CD;</md-icon>
+    <label>Phone</label>
+    <input type="text" name="phone" ng-model="company_address.phone" flex="<% $parent.$$prevSibling.$$prevSibling.widths.address_big %>">
+  </md-input-container>
+
+
+
+  <br>
+  <md-button type="submit" class="md-raised md-accent md-buttonNoMargin md-button-submit-color">
+    <i class="material-icons">&#xE161;</i> Update Company Address
+  </md-button>
+
+
+</md-content>
+
+</form>
+
+
+</div><!--end of shade container-->
+
+</div><!--end of Settings - company address-->
+
+
+
+</div><!--end of Company Address Controller-->
+
+
+
+
+
+
+
+
+<div ng-controller = "AuthenticationController">
+
+
+
+
+
+<!-- PAGE Settings - Account - Change Password =============================================== -->
+<div ng-show="selection.data == 'settings_account'">
+
+<div class="shade">
+
+
+
+<div ng-show="error" class="alert alert-danger"><% error %></div>
+
+<b>Change your account password</b>
+<br><br>
+
+
+<!--form to change your account password-->
+<form name="updatePasswordForm" method="POST" >
+  <input type="hidden" name="_method" value="PUT">
+  <input type="hidden" name="_token" value="{{ csrf_token() }}">
+
+
+  <md-input-container class="md-block">
+    <input type="text" placeholder="Username" name="username" ng-model="$parent.$parent.$parent.globals.currentUser.username" readonly="readonly" flex="<% $parent.$$prevSibling.$$prevSibling.widths.address %>">
+  </md-input-container>
+
+ <md-input-container class="md-block">
+    <input type="password" placeholder="Enter your OLD Password" type="password" name="old_password" ng-model="old_password" required flex="<% $parent.$$prevSibling.$$prevSibling.widths.address %>">
+  </md-input-container>
+
+  <md-input-container class="md-block">
+    <input type="password" placeholder="Enter a NEW Password" type="password" id="new_password" name="new_password" pattern=".{2,}" ng-model="new_password" required flex="<% $parent.$$prevSibling.$$prevSibling.widths.address %>">
+  </md-input-container>
+
+  <md-input-container class="md-block">
+    <input type="password" placeholder="Confirm NEW Password" type="password" id="new_password_confirm" name="new_password_confirm" wj-validation-error="new_password != new_password_confirm ? 'The Confirm Password does not match your New Password!' : ''" ng-model="new_password_confirm" pw-check="password" required flex="<% $parent.$$prevSibling.$$prevSibling.widths.address %>">
+  </md-input-container>
+
+  <md-button type="submit" class="md-raised md-accent md-buttonNoMargin md-button-submit-color" ng-click="updatePassword($parent.$parent.$parent.globals.currentUser.userid, old_password, new_password, new_password_confirm)">
+    <i class="material-icons">&#xE161;</i> Change Account Password
+  </md-button>
+
+</form>
+
+
+
+<br><br><br>
+<b>Create a new User Account</b> <md-button class="md-raised" ng-click="register_account()"><i class="material-icons">&#xE8D3;</i> Register Here<md-tooltip>Go to Account Registration</md-tooltip></md-button>
+
+
+</div><!--end of shade container-->
+
+</div><!--end of Settings - Account - change password -->
+
+
+
+
+
+
+
+</div><!--end of Authentication Controller-->
+
+
+
+
+
+<!--client controller closed at end so that the clients object is available throughout the app-->
+</div><!--end of Client Controller-->
+
+
+
