@@ -1597,7 +1597,7 @@
   <input type="hidden" ng-bind="getSubtotalVars('create')">
 
   <md-input-container class="md-block">
-    <!-- £ sign-->
+    <!-- Â£ sign-->
     <ng-md-icon ng-if="quoteData.total_excluding_vat >= 0"><i class="fa fa-1-5 fa-gbp"></i></ng-md-icon>
     <input type="text" placeholder="Total Excluding Vat" name="total_excluding_vat" readonly="readonly" ng-model="total_excluding_vat_currency_create" flex="<% $parent.$parent.$$prevSibling.widths.quote_small %>">
   </md-input-container>
