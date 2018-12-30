@@ -87,7 +87,6 @@ Route::delete('clients/{client},{api_token?}', [
 ]);
 
 
-//put or patch
 Route::put('clients{client},{api_token?}', [
 	'as' => 'clients.update',
 	'uses' => 'ClientController@update'
