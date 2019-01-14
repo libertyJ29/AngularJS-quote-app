@@ -54,15 +54,14 @@
 	
  
 
-<!-- MENU - Log out button =============================================== -->
-
+      <!-- MENU - Log out button =============================================== -->
       <div ng-controller="AuthenticationController">
 
 		<md-button name="logout" type="button" ng-click="logout()" class="md-raised md-autowidth md-buttonNoMargin">
 			<i class="fa fa-1-5 fa-sign-out" aria-hidden="true"></i> &nbsp;Logout<md-tooltip>Logout of Quote App</md-tooltip>
 		</md-button>
 
-      </div><!--end of AuthenticationController-->
+      </div>
 
 
 
@@ -393,7 +392,7 @@
       </span>
 
     </span>
-  </span><!--end of align-flex-container-->
+  </span>
 
   
 
@@ -424,7 +423,7 @@
       </span>
     </span>
     </span>
-  </span><!--end of align container-->
+  </span>
 
 
   <!--newline on mobile landscape and laptop-->
@@ -466,10 +465,10 @@
       </a>
 
     </md-input-container>
-  </span><!--end buttons-flex-container-->
+  </span>
 
 
-  </span><!--end of text-flex-->
+  </span>
 
 
 
@@ -489,7 +488,7 @@
 
 
 
-</span><!--end of container photoRight-flex->
+</span>
 
 
 
@@ -617,9 +616,9 @@
   </i>
 
     
-  </b><!--end of flex=20-->
+  </b>
 
-</div></div><!--end of layout = row-->
+</div></div>
 
 
 
@@ -751,7 +750,7 @@
     </span>
     </span>
 
-  </span><!--end of align-flex-container-->
+  </span>
 
 
 
@@ -832,13 +831,13 @@
           <span class="md-button-submit-color dontbreakhere">Not sent</span>
         </i>
 
-      </span><!--end of buttons-right-flex-->
+      </span>
 
 
-    </span><!--end of photoRight-flex container-->
+    </span>
 
 
-  </span><!--end of text-flex-->
+  </span>
 
 
 
@@ -867,7 +866,7 @@
 
 
 
-</span><!--end of photo flex wrapper-->
+</span>
 
 
 
@@ -893,7 +892,7 @@
 </span>
 
 
-</div><!--end of container-->
+</div>
 
 </div><!--end of Search for quote-->
 
@@ -1215,7 +1214,7 @@
 
 
 
-    </div><!--end of border section-->
+    </div>
     <br><br>
 
   </div><!--end of ng-repeat subtitles-->
@@ -1250,7 +1249,7 @@
 </form>
 
 
-</div><!--end of shade container-->
+</div>
 
 
 </div><!--end of Update quote-->
@@ -1580,7 +1579,7 @@
 
 
 
-  </div><!--end of div border section-->
+  </div>
   <br><br>
 
   </div><!--end of ng-repeat subtitles-->
@@ -1597,7 +1596,7 @@
   <input type="hidden" ng-bind="getSubtotalVars('create')">
 
   <md-input-container class="md-block">
-    <!-- Â£ sign-->
+    <!-- £ sign-->
     <ng-md-icon ng-if="quoteData.total_excluding_vat >= 0"><i class="fa fa-1-5 fa-gbp"></i></ng-md-icon>
     <input type="text" placeholder="Total Excluding Vat" name="total_excluding_vat" readonly="readonly" ng-model="total_excluding_vat_currency_create" flex="<% $parent.$parent.$$prevSibling.widths.quote_small %>">
   </md-input-container>
@@ -1618,7 +1617,7 @@
 </form>
 
 
-</div><!--end of shade container-->
+</div>
 
 </div><!--end of Create new quote-->
 
@@ -1769,7 +1768,7 @@
   </span>
 
 
-</span><!--end of flex container-->
+</span>
 
 
 
@@ -1792,7 +1791,7 @@
 </span>
 
 
-</div><!--end of shade container-->
+</div>
 </div><!--end of Search for client-->
 
 
@@ -1856,7 +1855,7 @@
   </md-content>
 </form>
 
-</div><!--end of shade container-->
+</div>
 <br>
 
 </div><!--end of Update client-->
@@ -1914,7 +1913,7 @@
 </form>
 
 
-</div><!--end of shade container-->
+</div>
 
 </div><!--end of Create new client-->
 
@@ -2033,7 +2032,7 @@
 
 
 
-</div><!--end of shade container-->
+</div>
 
 </div><!--end of Tags - work required-->
 
@@ -2097,7 +2096,7 @@
 </div>
 
 
-</div><!--end of shade container-->
+</div>
 
 </div><!--end of Tags - property type-->
 
@@ -2144,7 +2143,7 @@
 </form>
 
 
-</div><!--end of shade container-->
+</div>
 
 </div><!--end of Settings - vat rate-->
 
@@ -2234,7 +2233,7 @@
 </form>
 
 
-</div><!--end of shade container-->
+</div>
 
 </div><!--end of Settings - company address-->
 
@@ -2268,7 +2267,7 @@
 <br><br>
 
 
-<!--form to change your account password-->
+<!--form to change account password-->
 <form name="updatePasswordForm" method="POST" >
   <input type="hidden" name="_method" value="PUT">
   <input type="hidden" name="_token" value="{{ csrf_token() }}">
@@ -2302,7 +2301,7 @@
 <b>Create a new User Account</b> <md-button class="md-raised" ng-click="register_account()"><i class="material-icons">&#xE8D3;</i> Register Here<md-tooltip>Go to Account Registration</md-tooltip></md-button>
 
 
-</div><!--end of shade container-->
+</div>
 
 </div><!--end of Settings - Account - change password -->
 
